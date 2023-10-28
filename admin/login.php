@@ -88,10 +88,9 @@ if ($conn->connect_error) {
                                                 // Check, if user is already login, then jump to secured page
                                                 if ($row['Id']>0)
                                                 header('Location:/Personal-Productivity-Planner/admin/index.html');
-                                                }else{
-                                                    echo "Please try again later";
-                                                }
-                                            }
+                                                else{
+                                                    echo "Please try again later";  }   
+                                            }                                         
                                             ?>
                                         <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
                                         <hr>
