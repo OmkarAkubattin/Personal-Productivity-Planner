@@ -23,6 +23,25 @@
 </head>
 
 <body class="bg-gradient-primary">
+<?php
+// Server name must be localhost 
+$servername = "localhost"; 
+  
+// In my case, user name will be root 
+$username = "root"; 
+  
+// Password is empty 
+$password = ""; 
+$dbname="PPP";
+Global $conn;
+$conn = new mysqli($servername,$username, $password,$dbname); 
+// Check connection 
+if ($conn->connect_error) { 
+    die("Connection failure: " 
+        . $conn->connect_error); 
+}  
+
+?>
 
     <div class="container">
 
@@ -41,14 +60,14 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form action="logcheck.php" class="user">
+                                    <form action="login.php" method="POST" class="user">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" name="pass" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         <div class="form-group">
@@ -58,6 +77,22 @@
                                                     Me</label>
                                             </div>
                                         </div>
+                                        <?php
+                                            if(isset($_POST['email'])==''){   }
+                                            else{
+                                                $email=$_POST['email'];
+                                                $pass=$_POST['pass'];
+                                                $qur="SELECT Id FROM login_info WHERE Email='$email' and Password='$pass'";
+                                                $result = mysqli_query($conn, $qur); //run query
+                                                $row =  mysqli_fetch_assoc($result);
+                                                // Check, if user is already login, then jump to secured page
+                                                if ($row['Id']>0)
+                                                header('Location:/Personal-Productivity-Planner/admin/index.html');
+                                                }else{
+                                                    echo "Please try again later";
+                                                }
+                                            }
+                                            ?>
                                         <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
@@ -69,10 +104,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="forgot-password.php">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
