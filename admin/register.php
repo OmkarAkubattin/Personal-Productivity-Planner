@@ -1,3 +1,18 @@
+<?php
+include "../conn.php";
+$signup=0;
+if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['register'])){
+    $email=$_POST['email'];
+    $pass=password_hash($_POST['pass'],PASSWORD_DEFAULT);
+    $fname=$_POST['fname'];
+    $lname=$_POST['lname'];
+    if(mysqli_num_rows($result=sql_query("SELECT * FROM `users` WHERE 'email'='$email'")) ==0){
+        // die();
+        $result=sql_query("INSERT INTO `users` (`email`, `password`, `fname`, `lname`) VALUES ('$email', '$pass', '$fname', '$lname')");
+        header("Location: login.php?id=1");
+    }else $signup=1;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,49 +39,28 @@
 </head>
 
 <body class="bg-gradient-primary">
-<?php
-// Server name must be localhost 
-$servername = "localhost"; 
-  
-// In my case, user name will be root 
-$username = "root"; 
-  
-// Password is empty 
-$password = ""; 
-$dbname="PPP";
-Global $conn;
-$conn = new mysqli($servername,$username, $password,$dbname); 
-// Check connection 
-if ($conn->connect_error) { 
-    die("Connection failure: " 
-        . $conn->connect_error); 
-}  
-if(isset($_POST['email']))
-$email=$_POST['email'];
-if(isset($_POST['fname']))
-$fname=$_POST['fname'];
-if(isset($_POST['lname']))
-$lname=$_POST['lname'];
-if(isset($_POST['pass']))
-$pass=$_POST['pass'];
-if(isset($_POST['Cpass']))
-$Cpass=$_POST['Cpass'];
-                                        
-                                        // $Cpass=$_SESSION['Cpass'];
-?>
     <div class="container">
-
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                     <div class="col-lg-7">
+                    <?php
+                        if($signup){
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Failed !! </strong> User is Already Available
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>';
+                        }
+                    ?>
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form method="POST" action="register.php" class="user">
+                            <form method="POST" action="register.php" class="users">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
@@ -88,39 +82,10 @@ $Cpass=$_POST['Cpass'];
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            name="Cpass"id="exampleRepeatPassword" placeholder="Repeat Password">
+                                            name="cpass"id="exampleRepeatPassword" placeholder="Repeat Password">
                                     </div>
                                 </div>
-                                <?php
-                                        if(empty($email)||empty($fname)||empty($lname)||empty($pass)||empty($Cpass)){
-                                            if(empty($email)&&empty($fname)&&empty($lname)&&empty($pass)&&empty($Cpass)){}
-                                            else echo "<center>Fill the Details</center>";
-                                        }
-                                        else if($pass==$Cpass){ 
-                                            $qur="SELECT * FROM login_info WHERE Email='$email'";
-                                            $result = mysqli_query($conn, $qur); //run query
-                                            $row =  mysqli_fetch_assoc($result);
-                                            // Check, if user is already login, then jump to secured page
-                                            if ($row['Id']>0) {
-                                                echo "User Already Present use another Email";
-                                            }else{
-                                                $sql = "SELECT Id FROM login_info ORDER BY Id DESC LIMIT 1";
-                                                $result = mysqli_query($conn, $sql); //run query
-                                                $row = mysqli_fetch_assoc($result);
-                                                $id=$row['Id']+1;
-                                                $sql = "INSERT INTO login_info (Id, Email,FName,LName,Password)
-                                                VALUES ($id, '$email', '$fname','$lname','$pass')";
-                                                if($re=$conn->query($sql)==TRUE)
-                                                    echo "User Created Successfully,go to Login Page";
-                                                else
-                                                    echo "Can't Create User Try Again";
-                                            }
-                                        }else{
-                                            echo "Both Passwords Must Be Same";}
-                                        
-                                ?>
-                                <input type="submit" value="Register Account" onclick="check()"class="btn btn-primary btn-user btn-block">
-                                
+                                <input type="submit" name="register" value="Register Account" onclick="validateForm()"class="btn btn-primary btn-user btn-block">                   
                                 <hr>
                                 <a href="index.html" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google

@@ -1,3 +1,26 @@
+<?php
+include "../conn.php";
+session_start();
+$signup=0;
+$account=0;
+if(isset($_GET['id'])) $account=1;
+if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['login'])){
+    $email=$_POST['email'];
+    $pass=$_POST['pass'];
+    $result=sql_query("SELECT * FROM `users` WHERE `email`='$email'");
+    if(mysqli_num_rows($result) >0) { 
+        while($row = mysqli_fetch_assoc($result)) { 
+          if($row['email']==$email && password_verify($pass,$row['password'])){ 
+            $_SESSION['id']=$row['id'];
+            $_SESSION['email']=$email;
+            $_SESSION['fname']=$row['fname'];
+            $_SESSION['lname']=$row['lname'];
+            header("Location: index.php"); 
+          }else $signup=1;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,36 +35,17 @@
     <title>SB Admin 2 - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/Personal-Productivity-Planner/admin/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
 <body class="bg-gradient-primary">
-<?php
-// Server name must be localhost 
-$servername = "localhost"; 
-  
-// In my case, user name will be root 
-$username = "root"; 
-  
-// Password is empty 
-$password = ""; 
-$dbname="PPP";
-Global $conn;
-$conn = new mysqli($servername,$username, $password,$dbname); 
-// Check connection 
-if ($conn->connect_error) { 
-    die("Connection failure: " 
-        . $conn->connect_error); 
-}  
-
-?>
 
     <div class="container">
 
@@ -56,6 +60,23 @@ if ($conn->connect_error) {
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
+                            <?php
+                                if($account){
+                                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Successfully !! </strong> Account is Created.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>';
+                                }if($signup){
+                                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Failed !! </strong> User is Already Available
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>';
+                                }
+                                ?>
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
@@ -77,36 +98,21 @@ if ($conn->connect_error) {
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <?php
-                                            if(isset($_POST['email'])==''){   }
-                                            else{
-                                                $email=$_POST['email'];
-                                                $pass=$_POST['pass'];
-                                                $qur="SELECT Id FROM login_info WHERE Email='$email' and Password='$pass'";
-                                                $result = mysqli_query($conn, $qur); //run query
-                                                $row =  mysqli_fetch_assoc($result);
-                                                // Check, if user is already login, then jump to secured page
-                                                if ($row['Id']>0)
-                                                header('Location:/Personal-Productivity-Planner/admin/index.html');
-                                                else{
-                                                    echo "Please try again later";  }   
-                                            }                                         
-                                            ?>
-                                        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" name="login" value="Login" class="btn btn-primary btn-user btn-block">
                                         <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <a href="/Personal-Productivity-Planner/admin/index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <a href="/Personal-Productivity-Planner/admin/index.html" class="btn btn-facebook btn-user btn-block">
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                                         </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.php">Forgot Password?</a>
+                                        <a class="small" href="/Personal-Productivity-Planner/admin/forgot-password.php">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.php">Create an Account!</a>
+                                        <a class="small" href="/Personal-Productivity-Planner/admin/register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

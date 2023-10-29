@@ -1,13 +1,18 @@
-<script src="/admin/js/sb-admin-2.min.js"></script>
+<script src="/Personal-Productivity-Planner/admin/js/sb-admin-2.min.js"></script>
 
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3"><sup>3</sup></div>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center my-1" href="/Personal-Productivity-Planner/admin/index.html">
+            <?php 
+                include "../conn.php";
+                $result=sql_query("SELECT * FROM `web_info`");
+                if (mysqli_num_rows($result) >0) {
+                while($row = mysqli_fetch_assoc($result)){
+                    echo'<img src="data:image/png;base64,'.base64_encode($row["img"]).'" alt="..." width="35px">';
+                    }
+                }?>
+        <div class="sidebar-brand-text mx-3 mt-1">Planner<sup></sup></div>
     </a>
 
     <!-- Divider -->
@@ -15,7 +20,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="/admin/index.html">
+        <a class="nav-link" href="/Personal-Productivity-Planner/admin/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -32,7 +37,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/components/todo-list/tables.html">Inbox</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/tables.html">Inbox</a>
             </div>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -42,8 +47,8 @@
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/components/todo-list/completed.html">Completed</a>
-                <a class="collapse-item" href="/admin/components/todo-list/trash.html">Trash</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/completed.html">Completed</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/trash.html">Trash</a>
             </div>
         </div>
     </li>
@@ -58,8 +63,8 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/utilities-color.html">Short Tearm</a>
-                <a class="collapse-item" href="/admin/utilities-border.html">Long Tearm</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/utilities-color.html">Short Tearm</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/utilities-border.html">Long Tearm</a>
             </div>
         </div>
     </li>
@@ -74,14 +79,14 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="/admin/charts.html">
+        <a class="nav-link" href="/Personal-Productivity-Planner/admin/charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Eisenhower Matris</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="/admin/temp.html">
+        <a class="nav-link" href="/Personal-Productivity-Planner/admin/temp.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Pomodoro</span></a>
     </li>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -113,7 +116,7 @@
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="/admin/img/undraw_profile_1.svg"
+                        <img class="rounded-circle" src="/Personal-Productivity-Planner/admin/img/undraw_profile_1.svg"
                             alt="...">
                         <div class="status-indicator bg-success"></div>
                     </div>
@@ -125,7 +128,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="/admin/img/undraw_profile_2.svg"
+                        <img class="rounded-circle" src="/Personal-Productivity-Planner/admin/img/undraw_profile_2.svg"
                             alt="...">
                         <div class="status-indicator"></div>
                     </div>
@@ -137,7 +140,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="/admin/img/undraw_profile_3.svg"
+                        <img class="rounded-circle" src="/Personal-Productivity-Planner/admin/img/undraw_profile_3.svg"
                             alt="...">
                         <div class="status-indicator bg-warning"></div>
                     </div>
@@ -149,7 +152,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="/admin/https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                        <img class="rounded-circle" src="/Personal-Productivity-Planner/admin/https://source.unsplash.com/Mv9hjnEUHR4/60x60"
                             alt="...">
                         <div class="status-indicator bg-success"></div>
                     </div>
@@ -169,9 +172,12 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                <?php 
+                echo'<span class="mr-2 d-none d-lg-inline text-gray-600 small">';
+                echo ucwords(strtolower($_SESSION['fname'])).' '.ucwords(strtolower($_SESSION['lname']));
+                echo '</span>';?>
                 <img class="img-profile rounded-circle"
-                    src="/admin/img/undraw_profile.svg">
+                    src="/Personal-Productivity-Planner/admin/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
