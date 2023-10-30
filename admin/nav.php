@@ -1,7 +1,8 @@
 <?php
+include "../conn.php";
 session_start();
 ?>
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow" style="border-bottom: 1px solid #e3e6f0;">
 
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -175,9 +176,16 @@ session_start();
                 <?php 
                 echo'<span class="mr-2 d-none d-lg-inline text-gray-600 small">';
                 echo ucwords(strtolower($_SESSION['fname'])).' '.ucwords(strtolower($_SESSION['lname']));
-                echo '</span>';?>
-                <img class="img-profile rounded-circle"
-                    src="/Personal-Productivity-Planner/admin/img/undraw_profile.svg">
+                echo '</span>';
+                $email=$_SESSION['email'];
+                $result=sql_query("SELECT * FROM `users` WHERE `email`='$email'");
+                if (mysqli_num_rows($result) >0) {
+                while($row = mysqli_fetch_assoc($result)){
+                    echo'<img class="img-profile rounded-circle" src="data:image/png;base64,'.base64_encode($row["img"]).'" alt="..." width="35px">';
+                    }
+                }?>
+                <!-- <img class="img-profile rounded-circle"
+                    src="/Personal-Productivity-Planner/admin/img/undraw_profile.svg"> -->
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

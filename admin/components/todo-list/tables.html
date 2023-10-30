@@ -12,7 +12,8 @@
     <title>SB Admin 2 - Tables</title>
 
     <!-- Custom fonts for this template -->
-    <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+        type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -22,18 +23,121 @@
 
     <!-- Custom styles for this page -->
     <link href="/Personal-Productivity-Planner/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+        </script>
+    <script>
+        $(function () {
+            $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php");
+            $("#nav").load("/Personal-Productivity-Planner/admin/nav.php");
+            $("#footer").load("/Personal-Productivity-Planner/admin/footer.html");
+        });
     </script>
-    <script> 
-    $(function(){
-    $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php"); 
-    $("#nav").load("/Personal-Productivity-Planner/admin/nav.php"); 
-    $("#footer").load("/Personal-Productivity-Planner/admin/footer.html"); 
-    });
-    </script> 
+    <style>
+        .todo-nav {
+            margin-top: 10px
+        }
+
+        .todo-list {
+            margin: 10px 0
+        }
+
+        .todo-list .todo-item {
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 0;
+            background: #ffffff
+        }
+        .todo-list.only-active .todo-item.complete {
+            display: none
+        }
+
+        .todo-list.only-active .todo-item:not(.complete) {
+            display: block
+        }
+
+        .todo-list.only-complete .todo-item:not(.complete) {
+            display: none
+        }
+
+        .todo-list.only-complete .todo-item.complete {
+            display: block
+        }
+
+        .todo-list .todo-item.complete span {
+            text-decoration: line-through
+        }
+
+        .remove-todo-item {
+            color: #ccc;
+            visibility: hidden
+        }
+
+        .remove-todo-item:hover {
+            color: #5f5f5f
+        }
+
+        .todo-item:hover .remove-todo-item {
+            visibility: visible
+        }
+
+        div.checker {
+            width: 18px;
+            height: 18px
+        }
+
+        div.checker input,
+        div.checker span {
+            width: 18px;
+            height: 18px
+        }
+
+        div.checker span {
+            display: -moz-inline-box;
+            display: inline-block;
+            zoom: 1;
+            text-align: center;
+            background-position: 0 -260px;
+        }
+
+        div.checker,
+        div.checker input,
+        div.checker span {
+            width: 19px;
+            height: 19px;
+        }
+
+        div.checker,
+        div.radio,
+        div.uploader {
+            position: relative;
+        }
+
+        div.button,
+        div.button *,
+        div.checker,
+        div.checker *,
+        div.radio,
+        div.radio *,
+        div.selector,
+        div.selector *,
+        div.uploader,
+        div.uploader * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div.button,
+        div.checker,
+        div.radio,
+        div.selector,
+        div.uploader {
+            display: -moz-inline-box;
+            display: inline-block;
+            zoom: 1;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -56,92 +160,112 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="padding-left:0;padding-right:0;">
                     <div class="row align-items-start">
-                        <div class="col">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Inbox</h6>
-                                </div>
-                                <div class="card-body py-5">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Inbox</h6>
-                                </div>
+                        <div class="col" style="padding-right:0;">
+                            <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-body">
-                                    
+                                    <form action="javascript:void(0);">
+                                        <div class="add-items d-flex"> <input type="text" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                                    </form>
+                                    <ul class="nav nav-pills todo-nav">
+                                        <li role="presentation" class="nav-item all-task active"><a href="#"
+                                                class="nav-link">All</a></li>
+                                        <li role="presentation" class="nav-item active-task"><a href="#"
+                                                class="nav-link">Active</a></li>
+                                        <li role="presentation" class="nav-item completed-task"><a href="#"
+                                                class="nav-link">Completed</a></li>
+                                    </ul>
+                                    <div class="todo-list" style="border-bottom: 1px solid #ccc;">
+                                        <div class="todo-item">
+                                            <div class="checker"><span class=""><input type="checkbox"></span></div>
+                                            <span>Create theme</span><span class="time float-right">8:00-9:30AM <a type="button" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></a></span>
+                                                      <div class="ml-4 small">this is todo list disc</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                      </div>
+                            <div class="col" style="padding-left:0;">
+                                <div class="card mb-4" style="border: 0px;border-radius: 0;">
+                                    <div class="card-body">
+                                        <div class="p-2 bg-white notes">
+                                            <div class="d-flex flex-row align-items-center notes-title">
+                                                <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
+                                                <span><h4>&nbsp;Create theme</h4></span>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center align-content-center"><span class="rounded info">04/01/2020</span><span class="dot"></span><span class="info ml-1">ML - 1321</span></div>
+                                        </div>
+                                        <div class="p-2 bg-white">
+                                            this is todo list disc
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="/Personal-Productivity-Planner/admin/#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/Personal-Productivity-Planner/admin/login.html">Logout</a>
                     </div>
                 </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="/Personal-Productivity-Planner/admin/#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/Personal-Productivity-Planner/admin/login.html">Logout</a>
-                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
-    <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
+        <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/Personal-Productivity-Planner/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/Personal-Productivity-Planner/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/Personal-Productivity-Planner/admin/js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/Personal-Productivity-Planner/admin/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="/Personal-Productivity-Planner/admin/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/Personal-Productivity-Planner/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="/Personal-Productivity-Planner/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/Personal-Productivity-Planner/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="/Personal-Productivity-Planner/admin/js/demo/datatables-demo.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="/Personal-Productivity-Planner/admin/js/demo/datatables-demo.js"></script>
 
 </body>
 
