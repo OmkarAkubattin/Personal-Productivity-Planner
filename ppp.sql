@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2023 at 07:27 PM
+-- Generation Time: Oct 30, 2023 at 03:20 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,7 +33,7 @@ CREATE TABLE `todo` (
   `disc` varchar(500) NOT NULL,
   `tag` varchar(30) NOT NULL,
   `type` int(11) NOT NULL DEFAULT 4,
-  `created` date NOT NULL DEFAULT current_timestamp(),
+  `created` date NOT NULL,
   `due` date NOT NULL,
   `fk_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
