@@ -37,7 +37,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/tables.html">Inbox</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo.php">Inbox</a>
             </div>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

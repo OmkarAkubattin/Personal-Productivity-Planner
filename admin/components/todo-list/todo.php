@@ -1,3 +1,16 @@
+<?php 
+    include "../../../conn.php";
+    session_start();
+    $id=$_SESSION['id'];
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
+        $task=$_POST['task'];
+        $result=sql_query("INSERT INTO `todo` (`name`, `fk_user`) VALUES ('$task', '$id')");
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+        $task=$_POST['del-task'];
+        $result=sql_query("DELETE FROM `todo` WHERE `id` = $task");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -165,41 +178,72 @@
                         <div class="col" style="padding-right:0;">
                             <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-body">
-                                    <form action="javascript:void(0);">
-                                        <div class="add-items d-flex"> <input type="text" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                                    <form action="todo.php" method="POST">
+                                        <div class="add-items d-flex"> <input type="text" name="task" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button type="submit" name="add-task" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
                                     </form>
-                                    <ul class="nav nav-pills todo-nav">
-                                        <li role="presentation" class="nav-item all-task active"><a href="#"
-                                                class="nav-link">All</a></li>
-                                        <li role="presentation" class="nav-item active-task"><a href="#"
-                                                class="nav-link">Active</a></li>
-                                        <li role="presentation" class="nav-item completed-task"><a href="#"
-                                                class="nav-link">Completed</a></li>
-                                    </ul>
-                                    <div class="todo-list" style="border-bottom: 1px solid #ccc;">
+                                    <?php 
+                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id'");
+                                    if (mysqli_num_rows($result) >0) {
+                                    while($row = mysqli_fetch_assoc($result)){
+                                        $date=strtotime($row["created"]);
+                                        echo '
+                                        <form action="todo.php" method="POST">
+                                        <div class="todo-list" style="border-bottom: 1px solid #ccc;">
                                         <div class="todo-item">
                                             <div class="checker"><span class=""><input type="checkbox"></span></div>
-                                            <span>Create theme</span><span class="time float-right">8:00-9:30AM <a type="button" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></a></span>
-                                                      <div class="ml-4 small">this is todo list disc</div>
+                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></button>
+                                            <span class="time float-right">'.date('d-M-y', $date).'
+                                                    <button type="submit" name="del-task" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </span>
+                                                      <div class="ml-4 small">'.$row["disc"].'</div>
                                         </div>
                                     </div>
+                                    </form>';
+                                        }
+                                    }
+                                    
+                                    ?>
                                 </div>
                             </div>
                         </div>
                             <div class="col" style="padding-left:0;">
                                 <div class="card mb-4" style="border: 0px;border-radius: 0;">
                                     <div class="card-body">
-                                        <div class="p-2 bg-white notes">
-                                            <div class="d-flex flex-row align-items-center notes-title">
-                                                <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
-                                                <span><h4>&nbsp;Create theme</h4></span>
+                                    <?php
+                                    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['open-task'])){
+                                        $task=intval($_POST['open-task']);
+                                        $result=sql_query("SELECT * FROM `todo` WHERE `id` = $task");
+                                        if (mysqli_num_rows($result) >0) {
+                                            while($row = mysqli_fetch_assoc($result)){
+                                                $date=strtotime($row["created"]);
+                                                echo '<div class="p-2 bg-white notes">
+                                                        <div class="d-flex flex-row align-items-center notes-title">
+                                                        <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
+                                                        <span><h4>&nbsp;'.$row['name'].'</h4></span>
+                                                        <span class="float-right">
+                                                        <span class="dropdown no-arrow">
+                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                                                <a class="dropdown-item" href="#">Re-schedule</a>
+                                                                <a class="dropdown-item" href="#">Won\'t Do</a>
+                                                                <a class="dropdown-item" href="#">Trash</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item" href="#">Something else here</a>
+                                                            </div>
+                                                        </span>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center align-content-center"><span class="rounded info">04/01/2020</span><span class="dot"></span><span class="info ml-1">ML - 1321</span></div>
+                                            <div class="d-flex flex-row align-items-center align-content-center"><span class="rounded info">'.date('d-M-y', $date).'</span><span class="info ml-1"'.$row['type'].'</span></div>
                                         </div>
                                         <div class="p-2 bg-white">
-                                            this is todo list disc
+                                        '.$row['disc'].'
                                         </div> 
-                                    </div>
+                                    </div>';
+                                }
+                            }
+                        }
+                    ?>
                                 </div>
                             </div>
                         </div>
