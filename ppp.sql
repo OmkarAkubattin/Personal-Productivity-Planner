@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2023 at 09:32 PM
+-- Generation Time: Oct 31, 2023 at 09:43 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,7 +33,10 @@ CREATE TABLE `todo` (
   `disc` varchar(500) NOT NULL,
   `tag` varchar(30) NOT NULL,
   `type` int(11) NOT NULL DEFAULT 4,
-  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` int(11) NOT NULL DEFAULT 0,
+  `trash` int(11) NOT NULL DEFAULT 0,
+  `created` date NOT NULL,
+  `time` time NOT NULL,
   `fk_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,12 +44,24 @@ CREATE TABLE `todo` (
 -- Dumping data for table `todo`
 --
 
-INSERT INTO `todo` (`id`, `name`, `disc`, `tag`, `type`, `created`, `fk_user`) VALUES
-(6, 'soft skill assignment completion', '', '', 4, '2023-10-30 19:42:44', 35),
-(7, 'push day of gym', '', '', 4, '2023-10-30 19:43:12', 35),
-(8, 'hit 80% protine intake', '', '', 4, '2023-10-30 19:43:45', 35),
-(9, 'drink 1 gallon of water', '', '', 4, '2023-10-30 19:44:05', 35),
-(10, 'wake up at 4 pm', '', '', 4, '2023-10-30 19:44:30', 35);
+INSERT INTO `todo` (`id`, `name`, `disc`, `tag`, `type`, `status`, `trash`, `created`, `time`, `fk_user`) VALUES
+(2, 'soft skill assignment completion', '', '', 4, 1, 0, '2023-11-01', '00:00:00', 35),
+(3, 'wake up at 4 pm', '', '', 4, 1, 0, '2023-10-31', '00:00:00', 35),
+(4, 'push day of gym', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35),
+(5, 'drink 1 gallon of water', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35),
+(6, 'play football at 5 pm', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `todo_tag`
+--
+
+CREATE TABLE `todo_tag` (
+  `id` int(11) NOT NULL,
+  `tag` int(11) NOT NULL,
+  `fk_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -102,7 +117,15 @@ INSERT INTO `web_info` (`id`, `name`, `disc`, `img`) VALUES
 --
 ALTER TABLE `todo`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `fk_users` (`fk_user`);
+
+--
+-- Indexes for table `todo_tag`
+--
+ALTER TABLE `todo_tag`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user` (`fk_user`);
 
 --
 -- Indexes for table `users`
@@ -126,7 +149,13 @@ ALTER TABLE `web_info`
 -- AUTO_INCREMENT for table `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `todo_tag`
+--
+ALTER TABLE `todo_tag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -139,6 +168,22 @@ ALTER TABLE `users`
 --
 ALTER TABLE `web_info`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `todo`
+--
+ALTER TABLE `todo`
+  ADD CONSTRAINT `fk_users` FOREIGN KEY (`fk_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `todo_tag`
+--
+ALTER TABLE `todo_tag`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`fk_user`) REFERENCES `todo_tag` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
