@@ -2,14 +2,11 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`, `fk_user`) VALUES ('".$_POST['task']."', '$id')");
-    }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
-        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['uncomplete-task'])){
+        $result=sql_query("UPDATE `todo` SET `status` = '0' WHERE `id` = ".$_POST['uncomplete-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
         $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
@@ -189,20 +186,18 @@
                         <div class="col" style="padding-right:0;">
                             <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-body">
-                                    <form action="todo.php" method="POST">
-                                        <div class="add-items d-flex"> <input type="text" name="task" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button type="submit" name="add-task" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
-                                    </form>
+                                    <h4>Completed Task</h4>
                                     <?php 
-                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0");
+                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 1 and `trash`= 0");
                                     if (mysqli_num_rows($result) >0) {
                                     while($row = mysqli_fetch_assoc($result)){
                                         $date=strtotime($row["created"]);
                                         echo '
-                                        <form action="todo.php" method="POST">
+                                        <form action="complete-todo.php" method="POST">
                                         <div class="todo-list" style="border-bottom: 1px solid #ccc;">
                                         <div class="todo-item">
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></button>
+                                            <div class="checker"><span class=""><input type="checkbox" checked onChange="this.form.submit()" name="uncomplete-task" value="'.$row['id'].'"></span></div>
+                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"><span>'.$row["name"].'</span></button>
                                             <span class="time float-right">'.date('d-M-y', $date).'
                                                     <button type="submit" name="del-task" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </span>

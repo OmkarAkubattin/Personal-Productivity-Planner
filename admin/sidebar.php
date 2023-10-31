@@ -47,8 +47,8 @@
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/completed.html">Completed</a>
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/trash.html">Trash</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php">Completed</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/trash-todo.php">Trash</a>
             </div>
         </div>
     </li>
