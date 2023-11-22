@@ -192,14 +192,20 @@
                                     if (mysqli_num_rows($result) >0) {
                                     while($row = mysqli_fetch_assoc($result)){
                                         $date=strtotime($row["created"]);
+                                        $today=strtotime("now");
+                                        $tomorrow=strtotime("tomorrow");
+                                        $yesterday=strtotime("yesterday");
                                         echo '
                                         <form action="complete-todo.php" method="POST">
                                         <div class="todo-list" style="border-bottom: 1px solid #ccc;">
                                         <div class="todo-item">
-                                            <div class="checker"><span class=""><input type="checkbox" checked onChange="this.form.submit()" name="uncomplete-task" value="'.$row['id'].'"></span></div>
+                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="uncomplete-task" value="'.$row['id'].'"></span></div>
                                             <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"><span>'.$row["name"].'</span></button>
-                                            <span class="time float-right">'.date('d-M-y', $date).'
-                                                    <button type="submit" name="del-task" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <span class="time float-right">';
+                                            if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
+                                            else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
+                                            else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}
+                                        echo'<button type="submit" name="del-task" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </span>
                                             <div class="m-0 ml-3 pl-4 small">'.$row["disc"].'</div>
                                         </div>

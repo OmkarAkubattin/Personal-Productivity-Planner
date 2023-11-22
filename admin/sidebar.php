@@ -1,3 +1,9 @@
+<?php 
+    include "../conn.php";
+    session_start();
+    $id=$_SESSION['id'];
+?>
+
 <script src="/Personal-Productivity-Planner/admin/js/sb-admin-2.min.js"></script>
 
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -5,7 +11,6 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center my-1" href="/Personal-Productivity-Planner/admin/index.html">
             <?php 
-                include "../conn.php";
                 $result=sql_query("SELECT * FROM `web_info`");
                 if (mysqli_num_rows($result) >0) {
                 while($row = mysqli_fetch_assoc($result)){
@@ -43,6 +48,15 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Tags</h6>
+                <?php
+                $result=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' ");
+                if (mysqli_num_rows($result) >0) {
+                while($row = mysqli_fetch_assoc($result)){
+                    // if(0)
+                    echo '<a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php">'.$row['tag'].'</a>';
+                }
+            }
+                ?>
             </div>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -58,13 +72,14 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Goals</span>
+            <span>Goals List</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/utilities-color.html">Short Tearm</a>
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/utilities-border.html">Long Tearm</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/goals.php">Goals</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/complete-goals.php">Completed</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/trash-goals.php">Trash</a>
             </div>
         </div>
     </li>
