@@ -94,14 +94,14 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="/Personal-Productivity-Planner/admin/charts.html">
+        <a class="nav-link" href="/Personal-Productivity-Planner/admin/components/matrix/matrix.php">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Eisenhower Matris</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="/Personal-Productivity-Planner/admin/temp.html">
+        <a class="nav-link" href="/Personal-Productivity-Planner/admin/components/pomodoro/index.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Pomodoro</span></a>
     </li>

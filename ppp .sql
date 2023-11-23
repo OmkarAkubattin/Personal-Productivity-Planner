@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2023 at 09:43 AM
+-- Generation Time: Nov 23, 2023 at 03:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `ppp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `goals`
+--
+
+CREATE TABLE `goals` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `disc` varchar(500) NOT NULL,
+  `trash` int(11) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created` date NOT NULL,
+  `end` date NOT NULL,
+  `fk_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `goals`
+--
+
+INSERT INTO `goals` (`id`, `name`, `disc`, `trash`, `status`, `created`, `end`, `fk_user`) VALUES
+(1, '65 to 70 kg weight gain in 2 months', '', 1, 1, '2023-11-22', '2023-11-30', 35);
 
 -- --------------------------------------------------------
 
@@ -45,23 +69,10 @@ CREATE TABLE `todo` (
 --
 
 INSERT INTO `todo` (`id`, `name`, `disc`, `tag`, `type`, `status`, `trash`, `created`, `time`, `fk_user`) VALUES
-(2, 'soft skill assignment completion', '', '', 4, 1, 0, '2023-11-01', '00:00:00', 35),
-(3, 'wake up at 4 pm', '', '', 4, 1, 0, '2023-10-31', '00:00:00', 35),
+(2, 'soft skill assignment completion', '1.Know about your self ( One-Two  page report) \r\n2.Word Power ( Min 25 Words)( one New word with its meaning and sentence formation) \r\n3.Moral Story writting and summary of it few sentences\r\n\r\n4.SS online MCQ Based Quiz Prelim exam \r\n ( Tentatively posted on 3 Nov.) \r\n', 'collage', 4, 0, 0, '2023-11-01', '13:00:00', 35),
 (4, 'push day of gym', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35),
-(5, 'drink 1 gallon of water', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35),
-(6, 'play football at 5 pm', '', '', 4, 0, 0, '2023-10-31', '00:00:00', 35);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `todo_tag`
---
-
-CREATE TABLE `todo_tag` (
-  `id` int(11) NOT NULL,
-  `tag` int(11) NOT NULL,
-  `fk_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(5, 'drink 1 gallon of water', '', 'personal', 4, 0, 0, '2023-10-31', '00:00:00', 35),
+(6, 'play football at 5 pm', '', 'personal', 4, 0, 0, '2023-10-31', '00:00:00', 35);
 
 -- --------------------------------------------------------
 
@@ -113,19 +124,20 @@ INSERT INTO `web_info` (`id`, `name`, `disc`, `img`) VALUES
 --
 
 --
+-- Indexes for table `goals`
+--
+ALTER TABLE `goals`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `fk_user` (`fk_user`);
+
+--
 -- Indexes for table `todo`
 --
 ALTER TABLE `todo`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `fk_users` (`fk_user`);
-
---
--- Indexes for table `todo_tag`
---
-ALTER TABLE `todo_tag`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_user` (`fk_user`);
 
 --
 -- Indexes for table `users`
@@ -146,16 +158,16 @@ ALTER TABLE `web_info`
 --
 
 --
+-- AUTO_INCREMENT for table `goals`
+--
+ALTER TABLE `goals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `todo_tag`
---
-ALTER TABLE `todo_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -174,16 +186,16 @@ ALTER TABLE `web_info`
 --
 
 --
+-- Constraints for table `goals`
+--
+ALTER TABLE `goals`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`fk_user`) REFERENCES `users` (`id`);
+
+--
 -- Constraints for table `todo`
 --
 ALTER TABLE `todo`
   ADD CONSTRAINT `fk_users` FOREIGN KEY (`fk_user`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `todo_tag`
---
-ALTER TABLE `todo_tag`
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`fk_user`) REFERENCES `todo_tag` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
