@@ -3,26 +3,26 @@
     session_start();
     $id=$_SESSION['id'];
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`, `fk_user`) VALUES ('".$_POST['task']."', '$id')");
+        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
-        $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
-        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
-        $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['time-change'])){
-        $result=sql_query("UPDATE `todo` SET `time` = '".$_POST['time-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
-        $result=sql_query("UPDATE `todo` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
-        $result=sql_query("UPDATE `todo` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+    //     $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
+    //     $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['time-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `time` = '".$_POST['time-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
 
 ?>
 <!DOCTYPE html>
@@ -187,99 +187,89 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid" style="padding-left:0;padding-right:0;">
-                    <div class="row align-items-start">
-                        <div class="col" style="padding-right:0;">
-                            <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
-                                <div class="card-body">
-                                    <form action="todo.php" method="POST">
-                                        <div class="add-items d-flex"> <input type="text" name="task" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button type="submit" name="add-task" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
-                                    </form>
-                                    <?php 
-                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0");
-                                    if (mysqli_num_rows($result) >0) {
-                                    while($row = mysqli_fetch_assoc($result)){
-                                        $date=strtotime($row["created"]);
-                                        $today=strtotime("now");
-                                        $tomorrow=strtotime("tomorrow");
-                                        $yesterday=strtotime("yesterday");
-                                        echo '
-                                        <form action="todo.php" method="POST">
-                                        <div class="todo-list" style="border-bottom: 1px solid #ccc;">
-                                        <div class="todo-item">                                     
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></button>';if($row['tag']){echo '<span class="badge badge-pill badge-danger mb-2 ">'.$row['tag'].'</span>';}
-                                            echo'<span class="time float-right mt-2">';
-                                            if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
-                                            else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
-                                            else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}
-                                                    echo'<button type="submit" name="del-task" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </span>
-                                            <div class="m-0 ml-3 pl-4 small">'.$row["disc"].'</div>
-                                        </div>
-                                    </div>
-                                    </form>';
-                                        }
-                                    }
-                                    
-                                    ?>
-                                </div>
-                            </div>
+                <div class="container-fluid">
+                <!-- Page Heading -->
+
+                            
+                <div class="card shadow mb-4 mt-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
                         </div>
-                            <div class="col" style="padding-left:0;">
-                                <div class="card mb-4" style="border: 0px;border-radius: 0;">
-                                    <div class="card-body">
-                                    <?php
-                                    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['open-task'])){
-                                        $_SESSION['task-id']=intval($_POST['open-task']);
-                                        $result=sql_query("SELECT * FROM `todo` WHERE `id` = ".$_SESSION['task-id']."");
-                                        if (mysqli_num_rows($result) >0) {
+                        <div class="card-body">
+                        <form class="row" action="todo.php" method="POST">
+                            <div class="col-xl-3 col-md-6 ">
+                                <label for="exampleFormControlTextarea1">Task Name</label>
+                                <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
+                                <input name="created" type="date" required></span>
+                                <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
+                                <input type="time" name="time" step=900></span></div>
+                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                            </div>
+                            <div class="col-xl-9 col-md-6">
+                                <label for="exampleFormControlTextarea1" required>Task Description</label>
+                                <textarea class="form-control" name="disc" rows="3"></textarea>
+                                <label for="exampleFormControlTextarea1">Task Tags</label>
+                                <input class="form-control" name="tag" rows="1"></input>
+                            </div>
+                                </div>
+                        </form>
+                        </div>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th>Tag</th>
+                                                <th>Modity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 ORDER BY `created` ASC");
+                                            if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);
-                                                $strdate=strval(date('Y-m-d', $date));
+                                                $strdate=strval(date('d-M-y', $date));
+                                                $today=strtotime("now");
+                                                $tomorrow=strtotime("tomorrow");
+                                                $yesterday=strtotime("yesterday");
                                                 $time=strtotime($row["time"]);
-                                                $strtime=strval(date('H:i', $time));
-                                                // die($strtime);
-                                                echo '<form action="todo.php" method="POST">
-                                                        <div class="p-2 bg-white notes">
-                                                        <div class="d-flex flex-row align-items-center notes-title">
-                                                        <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
-                                                        <span><h4>&nbsp;'.$row['name'].'</h4></span>
-                                                        <span class="float-right">
-                                                        <span class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                                                <a class="dropdown-item" href="#">Re-schedule</a>
-                                                                <a class="dropdown-item" href="#">Won\'t Do</a>
-                                                                <a class="dropdown-item" href="#">Trash</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </span>
-                                            </div>
-                                            <input onChange="this.form.submit()" style="border:none;" name="date-change" type="date" value="'.$strdate.'" min="'.$strdate.'" ">
-                                            <span class="info ml-1"'.$row['type'].'</span>
-                                            <span class="float-right">
-                                            <input type="time" onChange="this.form.submit()" style="border:none;" name="time-change" type="date" value="'.$strtime.'" min=9:00 max=12:00 step=900>
-                                            </span>
-                                        </div>
-                                        <div class="p-2 bg-white">
-                                        <label for="exampleFormControlTextarea1">Description</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="10" onChange="this.form.submit()" name="disc-change">'.$row['disc'].'</textarea>
-                                        </div> 
-                                        <div class="p-2 bg-white">
-                                        <label for="exampleFormControlTextarea1">Tags</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="1" onChange="this.form.submit()" name="tag-change">'.$row['tag'].'</textarea>
-                                        </div> 
-                                    </div>
-                                    </form>';
-                                }
-                            }
-                        }
-                    ?>
-                                </div>
+                                                $strtime=strval(date('H:i a', $time));
+                                                echo '
+                                                    <tr>
+                                                    <td><form action="todo.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
+                                                    <td>'.$row['name'].'</td>
+                                                    <td>'.$row['disc'].'</td>
+                                                    <td>';
+                                                    if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
+                                                    else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
+                                                    else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}else{echo $strdate;}
+                                                echo'</td>
+                                                    <td>'.$strtime.'</td>
+                                                    <td>';
+                                                    if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
+                                                echo'</td>
+                                                    <td>'.$row['tag'].'</td>
+                                                    <td><form action="todo.php" method="POST"><span><button class="btn btn-sm btn-primary">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+
+                                                </tr>';
+                                                    }
+                                                }
+                                            ?>
+                                        </tbody>
+                                    </table>
                             </div>
                         </div>
                     </div>

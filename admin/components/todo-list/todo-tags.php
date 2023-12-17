@@ -2,11 +2,14 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
+        $result=sql_query("INSERT INTO `todo` (`name`, `fk_user`) VALUES ('".$_POST['task']."', '$id')");
+    }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['uncomplete-task'])){
-        $result=sql_query("UPDATE `todo` SET `status` = '0' WHERE `id` = ".$_POST['uncomplete-task']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
+        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
         $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
@@ -16,6 +19,9 @@
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
         $result=sql_query("UPDATE `todo` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
+        $result=sql_query("UPDATE `todo` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['task-id']."");
     }
 
 ?>
@@ -186,22 +192,27 @@
                         <div class="col" style="padding-right:0;">
                             <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-body">
-                                    <h4>Completed Task</h4>
+                                    <form action="todo.php" method="POST">
+                                        <div class="add-items d-flex"> <input type="text" name="task" class="mr-2 form-control add-task" placeholder="What do you need to do today?"> <button type="submit" name="add-task" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                                    </form>
                                     <?php 
-                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 1 and `trash`= 0 ORDER BY `created` ASC");
+                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0 and `tag`= '".$_GET['tag']."'");
                                     if (mysqli_num_rows($result) >0) {
                                     while($row = mysqli_fetch_assoc($result)){
                                         $date=strtotime($row["created"]);
+                                        $strdate=strval(date('Y-m-d', $date));
                                         $today=strtotime("now");
                                         $tomorrow=strtotime("tomorrow");
                                         $yesterday=strtotime("yesterday");
+                                        $time=strtotime($row["time"]);
+                                        $strtime=strval(date('H:i', $time));
                                         echo '
-                                        <form action="complete-todo.php" method="POST">
+                                        <form action="todo-tags.php" method="POST">
                                         <div class="todo-list" style="border-bottom: 1px solid #ccc;">
-                                        <div class="todo-item">
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="uncomplete-task" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"><span>'.$row["name"].'</span></button>
-                                            <span class="time float-right">';
+                                        <div class="todo-item">                                     
+                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></span></div>
+                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></button>';if($row['tag']){echo '<span class="badge badge-pill badge-danger mb-2 ">'.$row['tag'].'</span>';}
+                                            echo'<span class="time float-right mt-2">';
                                             if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
                                             else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
                                             else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}else{echo $strdate;}
@@ -251,7 +262,7 @@
                                                             </div>
                                                         </span>
                                             </div>
-                                            <input onChange="this.form.submit()" style="border:none;" name="date-change" type="date" value="'.$strdate.'" min="'.$strdate.'" ">
+                                            <input onChange="this.form.submit()" style="border:none;" name="date-change" type="date" value="'.$strdate.'" ">
                                             <span class="info ml-1"'.$row['type'].'</span>
                                             <span class="float-right">
                                             <input type="time" onChange="this.form.submit()" style="border:none;" name="time-change" type="date" value="'.$strtime.'" min=9:00 max=12:00 step=900>
@@ -260,7 +271,10 @@
                                         <div class="p-2 bg-white">
                                         <label for="exampleFormControlTextarea1">Description</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="10" onChange="this.form.submit()" name="disc-change">'.$row['disc'].'</textarea>
-                                        
+                                        </div> 
+                                        <div class="p-2 bg-white">
+                                        <label for="exampleFormControlTextarea1">Tags</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="1" onChange="this.form.submit()" name="tag-change">'.$row['tag'].'</textarea>
                                         </div> 
                                     </div>
                                     </form>';
