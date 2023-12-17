@@ -248,7 +248,7 @@
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
                             <label for="exampleFormControlTextarea1">Task Tags</label>
-                            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
+                            <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
                                 $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
                                 if (mysqli_num_rows($result1) >0) {
                                 while($row1 = mysqli_fetch_assoc($result1)){
