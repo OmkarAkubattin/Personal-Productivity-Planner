@@ -210,7 +210,7 @@
                                 <input name="created" value="'.$row['created'].'" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
                                 <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
-                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
