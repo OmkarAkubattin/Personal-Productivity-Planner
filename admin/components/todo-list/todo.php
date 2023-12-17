@@ -198,12 +198,14 @@
                         <div class="card-body">
                             <?php
                         if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
-                            $result=sql_query("SELECT FROM `todo` WHERE `fk_user`='$id' and `trash`= 0");
+                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
+                            if (mysqli_num_rows($result) >0) {
+                            while($row = mysqli_fetch_assoc($result)){
                         echo '           
                         <form class="row" action="todo.php" method="POST">
                             <div class="col-xl-3 col-md-6 ">
                                 <label for="exampleFormControlTextarea1">Task Name</label>
-                                <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
                                 <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
                                 <input name="created" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
@@ -212,12 +214,12 @@
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control" name="disc" rows="3"></textarea>
+                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
-                                <input class="form-control" name="tag" rows="1"></input>
+                                <input class="form-control" value="'.$row['tag'].'" name="tag" rows="1"></input>
                             </div>
                                 </div>
-                        </form>';
+                        </form>';}}
                     }
                     else{
                     echo '           
