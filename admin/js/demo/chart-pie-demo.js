@@ -4,18 +4,18 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
-var complT = int(document.getElementById("complT").value);
-complT=(complT*100)/totalT;
-var pendingT = int(document.getElementById("pendingT").value);
-pendingT=(pendingT*100)/totalT;
-var totalT = int(document.getElementById("totalT").value);
-totalT=((totalT-complT-pendingT)*100)/totalT;
+var complT = parseInt(document.getElementById("complT").getAttribute('value'));
+var pendingT = parseInt(document.getElementById("pendingT").getAttribute('value'));
+var totalT = parseInt(document.getElementById("totalT").getAttribute('value'));
+// complT=(complT*100)/totalT;
+// pendingT=(pendingT*100)/totalT;
+// totalT=((totalT-complT-pendingT)*100)/totalT;
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: ["Completed", "Pending", "Failed"],
     datasets: [{
-      data: [complT,pendingT ,totalT],
+      data: [complT,pendingT ,(totalT-complT-pendingT)],
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
