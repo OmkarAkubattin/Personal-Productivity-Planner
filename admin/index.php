@@ -82,7 +82,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Tasks </div>
-                                            <div id='totalT' class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <div  class="h5 mb-0 font-weight-bold text-gray-800">
                                             <?php
                                             $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id'");
                                             $totalT=mysqli_num_rows($result);
@@ -90,7 +90,7 @@
                                             ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i id='totalT' value="<?php echo $totalT ?>"class="fas fa-calendar fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -105,14 +105,14 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Completed Tasks</div>
-                                            <div id='complT' class="h5 mb-0 font-weight-bold text-gray-800"><?php
+                                            <div  class="h5 mb-0 font-weight-bold text-gray-800"><?php
                                             $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' AND `status`='1'");
                                             $compltT=mysqli_num_rows($result);
                                             echo $compltT;
                                             ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i id='complT' value="<?php echo $compltT?>"class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -160,14 +160,14 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Pending Tasks</div>
-                                            <div id='pendingT'class="h5 mb-0 font-weight-bold text-gray-800"><?php 
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php 
                                             $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' AND `status`='0' AND `trash`='0'");
                                             $pending=mysqli_num_rows($result);
                                             echo $pending;
                                             ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i id='pendingT' value="<?php echo $pending?>" class="fas fa-comments fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
