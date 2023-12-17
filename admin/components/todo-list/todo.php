@@ -207,9 +207,9 @@
                                 <label for="exampleFormControlTextarea1">Task Name</label>
                                 <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
                                 <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
-                                <input name="created" type="date" required></span>
+                                <input name="created" value="'.$row['created'].'" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
-                                <input type="time" name="time" step=900></span></div>
+                                <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
                                 <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
                             </div>
                             <div class="col-xl-9 col-md-6">
