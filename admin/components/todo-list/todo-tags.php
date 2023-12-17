@@ -2,15 +2,18 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+        $tid=$_POST['del-task'];
+        $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
+        $result=sql_query("SELECT `tag` FROM `todo` WHERE `id`=".$tid);
+        $_GET['tag']=mysqli_fetch_assoc($result)['tag'];
     }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
-    //     $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
-    // }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
-    //     $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
-    // }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
+        $tid=$_POST['complete-task'];
+        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = '".$tid."'");
+        $result=sql_query("SELECT `tag` FROM `todo` WHERE `id`=".$tid);
+        $_GET['tag']=mysqli_fetch_assoc($result)['tag'];
+    }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
     //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
     // }
@@ -192,6 +195,29 @@
 
                             
                 <div class="card shadow mb-4 mt-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
+                        </div>
+                        <div class="card-body">
+                        <form class="row" action="todo.php" method="POST">
+                            <div class="col-xl-3 col-md-6 ">
+                                <label for="exampleFormControlTextarea1">Task Name</label>
+                                <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
+                                <input name="created" type="date" required></span>
+                                <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
+                                <input type="time" name="time" step=900></span></div>
+                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                            </div>
+                            <div class="col-xl-9 col-md-6">
+                                <label for="exampleFormControlTextarea1" required>Task Description</label>
+                                <textarea class="form-control" name="disc" rows="3"></textarea>
+                                <label for="exampleFormControlTextarea1">Task Tags</label>
+                                <input class="form-control" name="tag" rows="1"></input>
+                            </div>
+                                </div>
+                        </form>
+                        </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -200,8 +226,9 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
+                                        <thead>     
                                             <tr>
+                                                <th></th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 <th>Date</th>
@@ -213,7 +240,7 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `tag`='".$_GET['tag']."'");
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `tag`='".$_GET['tag']."' ORDER BY `status` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);
@@ -225,6 +252,7 @@
                                                 $strtime=strval(date('H:i a', $time));
                                                 echo '
                                                     <tr>
+                                                    <td><form action="todo-tags.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
                                                     <td>'.$row['name'].'</td>
                                                     <td>'.$row['disc'].'</td>
                                                     <td>';
@@ -237,7 +265,7 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="todo.php" method="POST"><span><button class="btn btn-sm btn-primary">Restore</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+                                                    <td><form action="todo-tags.php" method="POST"><span><button class="btn btn-sm btn-primary">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
 
                                                 </tr>';
                                                     }
