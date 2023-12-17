@@ -223,19 +223,15 @@
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
                                 <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
-                                <input class="form-control" value="'.$row['tag'].'" name="tag" rows="1"></input>
-                                <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown button     
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item active" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                                </div>
+                                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
+                                $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
+                                if (mysqli_num_rows($result1) >0) {
+                                while($row1 = mysqli_fetch_assoc($result1)){
+                                if($row['tag']==$row1['tag']) echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';
+                                else echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                echo'</select>
                             </div>
-                                </div>
+                            </div>
                         </form>';}}
                     }
                     else{
@@ -254,12 +250,18 @@
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
                             <label for="exampleFormControlTextarea1">Task Tags</label>
-                            <input class="form-control" name="tag" rows="1"></input>
+                            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
+                                $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
+                                if (mysqli_num_rows($result1) >0) {
+                                while($row1 = mysqli_fetch_assoc($result1)){
+                                echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                echo'</select>
                         </div>
-                            </div>
+                        
+                        </div>
                     </form>';
                 }
-                ?>
+                    ?>
                         </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
