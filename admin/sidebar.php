@@ -53,7 +53,7 @@
                 if (mysqli_num_rows($result) >0) {
                 while($row = mysqli_fetch_assoc($result)){
                     // if(0)
-                    echo '<a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php">'.$row['tag'].'</a>';
+                    echo '<a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag='.$row['tag'].'">'.$row['tag'].'</a>';
                 }
             }
                 ?>

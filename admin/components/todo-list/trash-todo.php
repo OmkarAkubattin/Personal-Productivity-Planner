@@ -191,7 +191,7 @@
                                 <div class="card-body">
                                     <h4>Trash Task</h4>
                                     <?php 
-                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 1");
+                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 1 ORDER BY `created` ASC");
                                     if (mysqli_num_rows($result) >0) {
                                     while($row = mysqli_fetch_assoc($result)){
                                         $date=strtotime($row["created"]);
