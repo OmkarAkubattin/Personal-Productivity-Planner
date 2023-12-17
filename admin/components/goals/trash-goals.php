@@ -161,6 +161,9 @@
             zoom: 1;
             vertical-align: middle;
         }
+        #wrapper #content-wrapper{
+            height:100vh;
+        }
     </style>
 </head>
 

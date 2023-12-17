@@ -41,7 +41,6 @@
 
     <!-- Custom styles for this template -->
     <link href="/Personal-Productivity-Planner/admin/css/sb-admin-2.min.css" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="/Personal-Productivity-Planner/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.js"
@@ -157,6 +156,9 @@
             display: inline-block;
             zoom: 1;
             vertical-align: middle;
+        }
+        #wrapper #content-wrapper{
+            height:100vh;
         }
     </style>
 </head>
