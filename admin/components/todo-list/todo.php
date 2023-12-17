@@ -45,6 +45,7 @@
     <!-- Custom fonts for this template -->
     <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
         type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -222,7 +223,6 @@
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <input class="form-control" value="'.$row['tag'].'" name="tag" rows="1"></input>
                             </div>
-                                </div>
                         </form>';}}
                     }
                     else{
@@ -241,9 +241,20 @@
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
                             <label for="exampleFormControlTextarea1">Task Tags</label>
-                            <input class="form-control" name="tag" rows="1"></input>
-                        </div>
+                            <select class="form-select" aria-label="Default select example" onchange="this.nextElementSibling.value=this.value">
+                            <option value=""></option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>';
+                            $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
+                            if (mysqli_num_rows($result1) >0) {
+                            while($row1 = mysqli_fetch_assoc($result1)){
+                            echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                            echo'</select>
                             </div>
+                        </div>
+                        
+                        </div>
                     </form>';
                 }
                     ?>
@@ -351,7 +362,7 @@
                 </div>
             </div>
         </div>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>                                        
         <!-- Bootstrap core JavaScript-->
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
         <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

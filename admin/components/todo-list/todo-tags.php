@@ -14,6 +14,10 @@
         $result=sql_query("SELECT `tag` FROM `todo` WHERE `id`=".$tid);
         $_GET['tag']=mysqli_fetch_assoc($result)['tag'];
     }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
+        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+    }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
     //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
     // }
@@ -199,24 +203,63 @@
                             <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
                         </div>
                         <div class="card-body">
-                        <form class="row" action="todo.php" method="POST">
+                        <?php
+                        if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
+                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
+                            if (mysqli_num_rows($result) >0) {
+                            while($row = mysqli_fetch_assoc($result)){
+                        echo '           
+                        <form class="row" action="todo-tags.php" method="POST">
                             <div class="col-xl-3 col-md-6 ">
                                 <label for="exampleFormControlTextarea1">Task Name</label>
-                                <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
                                 <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
-                                <input name="created" type="date" required></span>
+                                <input name="created" value="'.$row['created'].'" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
-                                <input type="time" name="time" step=900></span></div>
-                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                                <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
+                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control" name="disc" rows="3"></textarea>
+                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
-                                <input class="form-control" name="tag" rows="1"></input>
+                                <input class="form-control" value="'.$row['tag'].'" name="tag" rows="1"></input>
+                                <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dropdown button     
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item active" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                                </div>
                             </div>
                                 </div>
-                        </form>
+                        </form>';}}
+                    }
+                    else{
+                    echo '           
+                    <form class="row" action="todo-tags.php" method="POST">
+                        <div class="col-xl-3 col-md-6 ">
+                            <label for="exampleFormControlTextarea1">Task Name</label>
+                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                            <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
+                            <input name="created" type="date" required></span>
+                            <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
+                            <input type="time" name="time" step=900></span></div>
+                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                        </div>
+                        <div class="col-xl-9 col-md-6">
+                            <label for="exampleFormControlTextarea1" required>Task Description</label>
+                            <textarea class="form-control" name="disc" rows="3"></textarea>
+                            <label for="exampleFormControlTextarea1">Task Tags</label>
+                            <input class="form-control" name="tag" rows="1"></input>
+                        </div>
+                            </div>
+                    </form>';
+                }
+                ?>
                         </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -265,7 +308,7 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="todo-tags.php" method="POST"><span><button class="btn btn-sm btn-primary">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+                                                    <td><form action="todo-tags.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
 
                                                 </tr>';
                                                     }
