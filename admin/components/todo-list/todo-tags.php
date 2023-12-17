@@ -227,8 +227,7 @@
                                 $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
                                 if (mysqli_num_rows($result1) >0) {
                                 while($row1 = mysqli_fetch_assoc($result1)){
-                                if($row['tag']==$row1['tag']) echo '<option selected value="'.$row['tag'].'">'.$row['tag'].'</option>';
-                                else echo '<option name="tag" value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                echo '<option selected value="'.$row['tag'].'">'.$row['tag'].'</option>';}}
                                 echo'</select>
                             </div>
                             </div>
