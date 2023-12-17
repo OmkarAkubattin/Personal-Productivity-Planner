@@ -202,8 +202,8 @@
                                         <form action="trash-todo.php" method="POST">
                                         <div class="todo-list" style="border-bottom: 1px solid #ccc;">
                                         <div class="todo-item">
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></button>
+                                            <div class="checker"><span class=""></span></div>
+                                            <div type="submit" class="btn btn-link" name="open-task" value="'.$row['id'].'"<span>'.$row["name"].'</span></div>
                                             <span class="time float-right">';
                                             if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
                                             else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
