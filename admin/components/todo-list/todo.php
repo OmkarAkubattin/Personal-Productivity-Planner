@@ -5,12 +5,12 @@
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
         $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
     }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
-    //     $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
-    // }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
-    //     $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
-    // }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+        $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
+        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
+    }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
     //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
     // }
@@ -237,7 +237,7 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 ORDER BY `created` ASC");
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 ORDER BY `status` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);

@@ -2,12 +2,13 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['restore'])){
+        $tid=$_POST['restore'];
+        $result=sql_query("UPDATE `todo` SET `status`='0' WHERE `id`='".$tid."'");
     }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
-    //     $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
-    // }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+        $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
+    }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
     //     $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     // }
@@ -216,6 +217,7 @@
                                             $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `status`=1 ORDER BY `created` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
+                                                $tid=$row['id'];
                                                 $date=strtotime($row["created"]);
                                                 $strdate=strval(date('d-M-y', $date));
                                                 $today=strtotime("now");
@@ -237,7 +239,7 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="todo.php" method="POST"><span><button class="btn btn-sm btn-primary">Restore</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+                                                    <td><form action="complete-todo.php" method="POST"><span><button type="submit" name="restore" value="'.$tid.'" class="btn btn-sm btn-primary">Restore</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
 
                                                 </tr>';
                                                     }
