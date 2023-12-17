@@ -265,7 +265,11 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
+<<<<<<< HEAD
                                                     <td><form action="todo-tags.php" method="POST"><span><button class="btn btn-sm btn-primary">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+=======
+                                                    <td><form action="todo-tags.php" method="POST"><span><button class="btn btn-sm btn-primary">Restore</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+>>>>>>> 5dbed1cf437413a4af8a7bee6408b848a7c50418
 
                                                 </tr>';
                                                     }
