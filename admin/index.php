@@ -112,7 +112,7 @@
                                             ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i id='complT' value="<?php echo $compltT?>"class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i id='complT' value="<?php echo $compltT?>"class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>

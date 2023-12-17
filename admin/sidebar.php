@@ -115,8 +115,8 @@
     </div>
 
     <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
+    <!-- <div class="sidebar-card d-none d-lg-flex">
         <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-    </div>
+    </div> -->
 
 </ul>
