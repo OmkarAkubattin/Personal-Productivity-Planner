@@ -3,7 +3,10 @@
     session_start();
     $id=$_SESSION['id'];
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-goal'])){
+        $result=sql_query("SELECT * FROM `goals` where `name`='".$_POST['goal']."' AND `fk_user`='".$id."'");
+        if(mysqli_num_rows($result)==0)
         $result=sql_query("INSERT INTO `goals` (`name`, `fk_user`) VALUES ('".$_POST['goal']."', '$id')");
+        else echo '<script>alert("Goal with same name not allowed")</script>';  
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-goal'])){
         $result=sql_query("UPDATE `goals` SET `trash` = '1' WHERE `id` = ".$_POST['del-goal']."");

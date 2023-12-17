@@ -5,6 +5,7 @@
         header("Location: login.php");
         exit;
     }
+    $id=$_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,8 +67,8 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                     </div>
 
                     <!-- Content Row -->
@@ -80,8 +81,13 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Tasks (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">400</div>
+                                                Total Tasks </div>
+                                            <div id='totalT' class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id'");
+                                            $totalT=mysqli_num_rows($result);
+                                            echo $totalT;
+                                            ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -98,8 +104,12 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Completed Hours (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
+                                                Completed Tasks</div>
+                                            <div id='complT' class="h5 mb-0 font-weight-bold text-gray-800"><?php
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' AND `status`='1'");
+                                            $compltT=mysqli_num_rows($result);
+                                            echo $compltT;
+                                            ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -119,12 +129,16 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php
+                                                    if($totalT!=0)
+                                            echo ($perc=floor(($compltT/$totalT)*100)).'%';
+                                            else echo '0%'
+                                            ?></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                            style="width: <?php echo $perc.'%'?>" aria-valuenow='<?php echo $perc?>' aria-valuemin="0"
                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
@@ -146,7 +160,11 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Pending Tasks</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div id='pendingT'class="h5 mb-0 font-weight-bold text-gray-800"><?php 
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' AND `status`='0' AND `trash`='0'");
+                                            $pending=mysqli_num_rows($result);
+                                            echo $pending;
+                                            ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -165,7 +183,7 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
+                                <!-- <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Tasks Overview</h6>
                                     <div class="dropdown no-arrow">
@@ -182,7 +200,7 @@
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -196,7 +214,7 @@
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
+                                <!-- <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Your Performance</h6>
                                     <div class="dropdown no-arrow">
@@ -213,7 +231,7 @@
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
