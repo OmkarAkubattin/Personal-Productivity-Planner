@@ -11,6 +11,10 @@
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
         $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
+        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+    }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
     //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
     // }
@@ -210,7 +214,7 @@
                                 <input name="created" value="'.$row['created'].'" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
                                 <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
-                                <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
+                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
