@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <?php 
     include "../../../conn.php";
     session_start();
@@ -344,4 +342,3 @@
 </body>
 
 </html>
->>>>>>> 940432c262a12c5da245400c6d72bffe74498e05
