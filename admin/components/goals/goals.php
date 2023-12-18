@@ -194,141 +194,32 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid" style="padding-left:0;padding-right:0;">
-                    <div class="row align-items-start">
-                        <div class="col" style="padding-right:0;">
-                            <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
-                                <div class="card-body">
-                                    <form action="goals.php" method="POST">
-                                        <div class="add-items d-flex"> <input type="text" name="goal" class="mr-2 form-control add-goal" placeholder="What do you need to do today?"> <button type="submit" name="add-goal" class="add btn btn-primary font-weight-bold goals-list-add-btn">Add</button> </div>
-                                    </form>
-                                    <?php 
-                                    $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0");
-                                    if (mysqli_num_rows($result) >0) {
-                                    while($row = mysqli_fetch_assoc($result)){
-                                        $date=strtotime($row["end"]);
-                                        $today=strtotime("now");
-                                        $tomorrow=strtotime("tomorrow");
-                                        $yesterday=strtotime("yesterday");
-                                        echo '
-                                        <form action="goals.php" method="POST">
-                                        <div class="goals-list" style="border-bottom: 1px solid #ccc;">
-                                        <div class="goals-item">                                     
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="complete-goal" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-goal" value="'.$row['id'].'"<span>'.$row["name"].'</span>';
-                                            if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
-                                            else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
-                                            else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}
-                                                    echo'<button type="submit" name="del-goal" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </span>
-                                            <div class="m-0 ml-3 pl-4 small">'.$row["disc"].'</div>
-                                        </div>
-                                    </div>
-                                    </form>';
-                                        }
-                                    }
-                                    
-                                    ?>
+                <div class="card shadow mb-4 mt-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Set A Goal</h6>
+                        </div>
+                        <div class="card-body">
+                <form class="row" action="todo.php" method="POST">
+                        <div class="col-xl-3 col-md-6 ">
+                            <label for="exampleFormControlTextarea1">Goal Name</label>
+                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What's your Goal?" required>
+                            <div class="my-4"><span><label for="exampleFormControlTextarea1">End Date</label>
+                            <input name="created" type="date" required></span>
+                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                        </div>
+                        <div class="col-xl-9 col-md-6">
+                            <label for="exampleFormControlTextarea1" required>Task Description</label>
+                            <textarea class="form-control" name="disc" rows="3"></textarea>
+                            <label for="exampleFormControlTextarea1">Task Tags</label>
+                            <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"></select>
+                        </div>
                                 </div>
-                            </div>
-                        </div>
-                            <div class="col" style="padding-left:0;">
-                                <div class="card mb-4" style="border: 0px;border-radius: 0;">
-                                    <div class="card-body">
-                                    <?php
-                                    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['open-goal'])){
-                                        $_SESSION['goal-id']=intval($_POST['open-goal']);
-                                        $result=sql_query("SELECT * FROM `goals` WHERE `id` = ".$_SESSION['goal-id']."");
-                                        if (mysqli_num_rows($result) >0) {
-                                            while($row = mysqli_fetch_assoc($result)){
-                                                $startdate=strtotime($row["created"]);
-                                                $strstartdate=strval(date('Y-m-d', $startdate));
-                                                $enddate=strtotime($row["end"]);
-                                                $strenddate=strval(date('Y-m-d', $enddate));
-                                                // die($strtime);
-                                                echo '<form action="goals.php" method="POST">
-                                                        <div class="p-2 bg-white notes">
-                                                        <div class="d-flex flex-row align-items-center notes-title">
-                                                        <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
-                                                        <span><h4>&nbsp;'.$row['name'].'</h4></span>
-                                                        <span class="float-right">
-                                                        <span class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                                                <a class="dropdown-item" href="#">Re-schedule</a>
-                                                                <a class="dropdown-item" href="#">Won\'t Do</a>
-                                                                <a class="dropdown-item" href="#">Trash</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </span>
-                                            </div>
-                                            Start Date&nbsp;&nbsp;<input onChange="this.form.submit()" style="border:none;" name="date-change" type="date" value="'.$strstartdate.'" min="'.$strstartdate.'" ">
-                                            <span class="float-right">
-                                            End Date&nbsp;&nbsp;<input onChange="this.form.submit()" style="border:none;" name="end-change" type="date" value="'.$strenddate.'" min="'.$strenddate.'" ">
-                                            </span>
-                                        </div>
-                                        <div class="p-2 bg-white">
-                                        <label for="exampleFormControlTextarea1">Description</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="10" onChange="this.form.submit()" name="disc-change">'.$row['disc'].'</textarea>
-                                        </div>  
-                                    </div>
-                                    </form>';
-                                }
-                            }
-                        }
-                    ?>
                                 </div>
-                            </div>
                         </div>
-                    </div>
-                    <!-- /.container-fluid -->
-
-                </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2020</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
-
-            </div>
-            <!-- End of Content Wrapper -->
-
+                    </form>
+                </div>                
+            </div>     
         </div>
-        <!-- End of Page Wrapper -->
-
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="/Personal-Productivity-Planner/admin/#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="/Personal-Productivity-Planner/admin/login.html">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Bootstrap core JavaScript-->
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
         <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
