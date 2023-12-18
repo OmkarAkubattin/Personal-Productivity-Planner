@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2023 at 12:12 PM
+-- Generation Time: Dec 18, 2023 at 06:51 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,7 +43,7 @@ CREATE TABLE `goals` (
 --
 
 INSERT INTO `goals` (`id`, `name`, `disc`, `trash`, `status`, `created`, `end`, `fk_user`) VALUES
-(1, '65 to 70 kg weight gain in 2 months', '', 0, 0, '2023-11-22', '2023-11-30', 35);
+(3, 'Planner', '1212', 0, 0, '0000-00-00', '0000-00-00', 35);
 
 -- --------------------------------------------------------
 
@@ -61,22 +61,24 @@ CREATE TABLE `todo` (
   `trash` int(11) NOT NULL DEFAULT 0,
   `created` date NOT NULL,
   `time` time NOT NULL,
-  `fk_user` int(11) NOT NULL
+  `fk_user` int(11) NOT NULL,
+  `fk_goal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `todo`
 --
 
-INSERT INTO `todo` (`id`, `name`, `disc`, `tag`, `type`, `status`, `trash`, `created`, `time`, `fk_user`) VALUES
-(2, 'soft skill assignment completion', '1.Know about your self ( One-Two  page report) \r\n2.Word Power ( Min 25 Words)( one New word with its meaning and sentence formation) \r\n3.Moral Story writting and summary of it few sentences\r\n\r\n4.SS online MCQ Based Quiz Prelim exam \r\n ( Tentatively posted on 3 Nov.) \r\n', 'collage', 4, 1, 0, '2023-11-01', '13:00:00', 35),
-(4, 'push day of gym', 'bench press \r\nDumble press\r\n', 'personal', 4, 0, 0, '2023-11-24', '04:00:00', 35),
-(5, 'drink 1 gallon of water', '500 ml in every 2 hours', 'personal', 4, 0, 0, '2023-11-23', '03:00:00', 35),
-(6, 'go to home form collage', 'on cycle', 'collage', 4, 0, 0, '2023-12-08', '11:00:00', 35),
-(11, 'project presentation', 'personal productivity planner', 'collage', 4, 0, 0, '2023-11-22', '11:02:00', 35),
-(12, 'meeting', '', '', 4, 1, 1, '0000-00-00', '00:00:00', 35),
-(28, '', '', '', 4, 0, 1, '0000-00-00', '00:00:00', 35),
-(29, 'pay rent of flat', 'to owner', '', 4, 0, 0, '0000-00-00', '12:00:00', 35);
+INSERT INTO `todo` (`id`, `name`, `disc`, `tag`, `type`, `status`, `trash`, `created`, `time`, `fk_user`, `fk_goal`) VALUES
+(2, 'soft skill assignment completion', '1.Know about your self ( One-Two  page report) \r\n2.Word Power ( Min 25 Words)( one New word with its meaning and sentence formation) \r\n3.Moral Story writting and summary of it few sentences\r\n\r\n4.SS online MCQ Based Quiz Prelim exam \r\n ( Tentatively posted on 3 Nov.) \r\n', 'Personal', 2, 1, 0, '2023-11-01', '13:00:00', 35, 3),
+(4, 'push day of gym', 'bench press \r\nDumble press\r\n', 'Personal', 3, 0, 0, '2023-11-24', '04:00:00', 35, 3),
+(5, 'drink 1 gallon of water', '500 ml in every 2 hours', 'Personal', 3, 0, 0, '2023-11-23', '03:00:00', 35, 3),
+(6, 'go to home form collage', 'on cycle', 'Work', 1, 0, 0, '2023-12-08', '11:00:00', 35, 3),
+(11, 'project presentation', 'personal productivity planner', 'Work', 1, 0, 0, '2023-11-22', '11:02:00', 35, 3),
+(12, 'meeting', 'meeting', 'Other', 4, 1, 0, '0000-00-00', '00:00:00', 35, 3),
+(28, 'trash', 'trash', 'Other', 4, 0, 1, '0000-00-00', '00:00:00', 35, 3),
+(29, 'pay rent of flat', 'to owner', 'Other', 4, 0, 0, '0000-00-00', '12:00:00', 35, 3),
+(31, 'omkars', 'asasas', 'Work', 2, 0, 0, '2023-12-18', '00:00:00', 35, 3);
 
 -- --------------------------------------------------------
 
@@ -141,8 +143,8 @@ ALTER TABLE `goals`
 --
 ALTER TABLE `todo`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `fk_users` (`fk_user`);
+  ADD KEY `fk_users` (`fk_user`),
+  ADD KEY `fk_goals` (`fk_goal`);
 
 --
 -- Indexes for table `users`
@@ -166,13 +168,13 @@ ALTER TABLE `web_info`
 -- AUTO_INCREMENT for table `goals`
 --
 ALTER TABLE `goals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -200,6 +202,7 @@ ALTER TABLE `goals`
 -- Constraints for table `todo`
 --
 ALTER TABLE `todo`
+  ADD CONSTRAINT `fk_goals` FOREIGN KEY (`fk_goal`) REFERENCES `goals` (`id`),
   ADD CONSTRAINT `fk_users` FOREIGN KEY (`fk_user`) REFERENCES `users` (`id`);
 COMMIT;
 
