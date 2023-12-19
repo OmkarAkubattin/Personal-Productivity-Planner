@@ -2,30 +2,31 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-goal'])){
-        $result=sql_query("SELECT * FROM `goals` where `name`='".$_POST['goal']."' AND `fk_user`='".$id."'");
-        if(mysqli_num_rows($result)==0)
-        $result=sql_query("INSERT INTO `goals` (`name`, `fk_user`) VALUES ('".$_POST['goal']."', '$id')");
-        else echo '<script>alert("Goal with same name not allowed")</script>';  
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
+        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-goal'])){
-        $result=sql_query("UPDATE `goals` SET `trash` = '1' WHERE `id` = ".$_POST['del-goal']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
+        $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-goal'])){
-        $result=sql_query("UPDATE `goals` SET `status` = '1' WHERE `id` = ".$_POST['complete-goal']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
+        $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
-        $result=sql_query("UPDATE `goals` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['goal-id']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
+        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['end-change'])){
-        $result=sql_query("UPDATE `goals` SET `end` = '".$_POST['end-change']."' WHERE `id` = ".$_SESSION['goal-id']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
-        $result=sql_query("UPDATE `goals` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['goal-id']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
-        $result=sql_query("UPDATE `goals` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['goal-id']."");
-    }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['time-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `time` = '".$_POST['time-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
+    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
+    //     $result=sql_query("UPDATE `todo` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['task-id']."");
+    // }
 
 ?>
 <!DOCTYPE html>
@@ -44,6 +45,7 @@
     <!-- Custom fonts for this template -->
     <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
         type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -64,50 +66,50 @@
         });
     </script>
     <style>
-        .goals-nav {
+        .todo-nav {
             margin-top: 10px
         }
 
-        .goals-list {
+        .todo-list {
             margin: 10px 0
         }
 
-        .goals-list .goals-item {
+        .todo-list .todo-item {
             padding: 5px;
             margin: 5px 0;
             border-radius: 0;
             background: #ffffff
         }
-        .goals-list.only-active .goals-item.complete {
+        .todo-list.only-active .todo-item.complete {
             display: none
         }
 
-        .goals-list.only-active .goals-item:not(.complete) {
+        .todo-list.only-active .todo-item:not(.complete) {
             display: block
         }
 
-        .goals-list.only-complete .goals-item:not(.complete) {
+        .todo-list.only-complete .todo-item:not(.complete) {
             display: none
         }
 
-        .goals-list.only-complete .goals-item.complete {
+        .todo-list.only-complete .todo-item.complete {
             display: block
         }
 
-        .goals-list .goals-item.complete span {
+        .todo-list .todo-item.complete span {
             text-decoration: line-through
         }
 
-        .remove-goals-item {
+        .remove-todo-item {
             color: #ccc;
             visibility: hidden
         }
 
-        .remove-goals-item:hover {
+        .remove-todo-item:hover {
             color: #5f5f5f
         }
 
-        .goals-item:hover .remove-goals-item {
+        .todo-item:hover .remove-todo-item {
             visibility: visible
         }
 
@@ -121,9 +123,7 @@
             width: 18px;
             height: 18px
         }
-        .sidemove{
-            
-        }
+
         div.checker span {
             display: -moz-inline-box;
             display: inline-block;
@@ -144,10 +144,7 @@
         div.uploader {
             position: relative;
         }
-        .sidemove{
-            display:flex;
-            flex-direction:row;
-        }
+
         div.button,
         div.button *,
         div.checker,
@@ -161,12 +158,7 @@
             margin: 0;
             padding: 0;
         }
-        .form-control{
-            width: 80vh;
-        }
-        .mr-2{
-            margin: 2%;
-        }
+
         div.button,
         div.checker,
         div.radio,
@@ -176,9 +168,6 @@
             display: inline-block;
             zoom: 1;
             vertical-align: middle;
-        }
-        #wrapper #content-wrapper{
-            height:100vh;
         }
     </style>
 </head>
@@ -203,36 +192,190 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid" style="padding-left:0;padding-right:0;">
+                <div class="container-fluid">
+                <!-- Page Heading -->
+
+                            
                 <div class="card shadow mb-4 mt-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Set A Goal</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Goals</h6>
                         </div>
                         <div class="card-body">
-                <form class="row" action="todo.php" method="POST">
-                        <div class="col-xl-3 col-md-6 sidemove">
-                            <div class="my-1">
-                            <label for="exampleFormControlTextarea1"class="mr-2">Goal Name</label>
-                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What's your Goal?" required>
-                            <span><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="created" class="mr-2" type="date" required></span>
-                            <button type="submit" name="add-task" class="mr-2 add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                            <?php
+                        if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
+                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
+                            if (mysqli_num_rows($result) >0) {
+                            while($row = mysqli_fetch_assoc($result)){
+                        echo '           
+                        <form class="row" action="todo.php" method="POST">
+                            <div class="col-xl-4 col-md-6 ">
+                                <label for="exampleFormControlTextarea1">Goals Name</label>
+                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
+                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
+                                <input name="created" value="'.$row['created'].'" type="date" required></span>
+                                <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
+                                <input name="created" value="'.$row['created'].'" type="date" required></span></div>
+                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Goals</button>
                             </div>
-                            <div class="col-xl-9 col-md-6">
-                            <label for="exampleFormControlTextarea1" required>Goal Description</label>
-                            <textarea class="form-control" name="disc" rows="3"></textarea>
-                            <label for="exampleFormControlTextarea1">Priority Tags</label>
-                            <select name="tag" class="form-select mr-2 form-control add-task" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                <Option>Low Priority</Option>
-                                <Option>Mid Priority</Option>
-                                <Option>High Priority</Option>
-                            </select>
+                            <div class="col-xl-8 col-md-6">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-fluid" alt="...">
+                                <label for="exampleFormControlTextarea1" required>Goals Description</label>
+                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
+                                <label for="exampleFormControlTextarea1">Goals Tags</label>
+                                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
+                                $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
+                                if (mysqli_num_rows($result1) >0) {
+                                while($row1 = mysqli_fetch_assoc($result1)){
+                                if($row['tag']==$row1['tag']) echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';
+                                else echo '<option name="tag" value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                echo'</select>
+                            </div>
+                            </div>
+                        </form>';}}
+                    }
+                    else{
+                    echo '           
+                    <form class="row" action="todo.php" method="POST">
+                        <div class="col-xl-6 col-md-6 ">
+                            <label for="exampleFormControlTextarea1">Goals Name</label>
+                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
+                            <div class="my-3 mb-2"><span><label for="exampleFormControlTextarea1">Start Date</label>
+                            <input name="created" type="date" required></span>
+                            <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
+                            <input name="created" type="date" required></span></div>
+                            <label for="exampleFormControlTextarea1" required>Goals Description</label>
+                            <textarea class="form-control mb-3" name="disc" rows="3"></textarea>
+                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Goals</button>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-2" style="width:257%" alt="..."><br>
+                            <label for="exampleFormControlTextarea1">Goals Tags</label>
+                            <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile01">
                             </div>
                         </div>
-                    </form>
-                </div>                
-            </div>     
+                        
+                        </div>
+                    </form>';
+                }
+                    ?>
+                        </div>
+                    <!-- DataTales Example -->
+                    <div class="row">
+                    <?php
+                    $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
+                    if (mysqli_num_rows($result1) >0) {
+                    while($row1 = mysqli_fetch_assoc($result1)){
+                    echo '<div class="col-md-4">
+                            <div class="card shadow mb-3">
+                            <div class="row">
+                                <div class="col-md-5">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
+                                </div>
+                                <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                    class="float-right">60%</span></h6>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>';
+                        ?>
+                        <div class="col-md-4">
+                            <div class="card shadow mb-3">
+                            <div class="row">
+                                <div class="col-md-5">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
+                                </div>
+                                <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                    class="float-right">60%</span></h6>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div><div class="col-md-4">
+                            <div class="card shadow mb-3">
+                            <div class="row">
+                                <div class="col-md-5">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
+                                </div>
+                                <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                    class="float-right">60%</span></h6>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
         </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="/Personal-Productivity-Planner/admin/#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/Personal-Productivity-Planner/admin/login.html">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>                                        
         <!-- Bootstrap core JavaScript-->
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
         <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
