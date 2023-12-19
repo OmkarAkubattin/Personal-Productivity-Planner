@@ -57,7 +57,8 @@
     <!-- Custom fonts for this template -->
     <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
         type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -92,6 +93,7 @@
             border-radius: 0;
             background: #ffffff
         }
+
         .todo-list.only-active .todo-item.complete {
             display: none
         }
@@ -205,39 +207,46 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <!-- Page Heading -->
+                    <!-- Page Heading -->
 
-                            
-                <div class="card shadow mb-4 mt-4">
+
+                    <div class="card shadow mb-4 mt-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Goals</h6>
                         </div>
-                        <div class="card-body">          
-                    <form class="row" action="index.php" method="POST" enctype="multipart/form-data">
-                        <div class="col-xl-6 col-md-6 ">
-                            <label for="exampleFormControlTextarea1">Goals Name</label>
-                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
-                            <div class="my-3 mb-2"><span><label for="exampleFormControlTextarea1">Start Date</label>
-                            <input name="created" type="date" required></span>
-                            <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="end" type="date" required></span></div>
-                            <label for="exampleFormControlTextarea1" required>Goals Description</label>
-                            <textarea class="form-control mb-3" name="disc" rows="3"></textarea>
-                            <button type="submit" name="add-goal" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Goals</button>
+                        <div class="card-body">
+                            <form class="row" action="index.php" method="POST" enctype="multipart/form-data">
+                                <div class="col-xl-6 col-md-6 ">
+                                    <label for="exampleFormControlTextarea1">Goals Name</label>
+                                    <input type="text" name="name" class="mr-2 form-control add-task"
+                                        placeholder="What do you need to do today?" required>
+                                    <div class="my-3 mb-2"><span><label for="exampleFormControlTextarea1">Start
+                                                Date</label>
+                                            <input name="created" type="date" required></span>
+                                        <span class="float-right"><label for="exampleFormControlTextarea1">End
+                                                Date</label>
+                                            <input name="end" type="date" required></span>
+                                    </div>
+                                    <label for="exampleFormControlTextarea1" required>Goals Description</label>
+                                    <textarea class="form-control mb-3" name="disc" rows="3"></textarea>
+                                    <button type="submit" name="add-goal"
+                                        class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New
+                                        Goals</button>
+                                </div>
+                                <div class="col-xl-6 col-md-6">
+                                    <img src="/Personal-Productivity-Planner/admin/img/img.jpg"
+                                        class="img-thumbnail rounded-start mb-3" style="width:25%" alt="..."><br>
+                                    <label for="exampleFormControlTextarea1">Select Imgage</label>
+                                    <div class="form-group mb-3">
+                                        <input type="file" name="img" class="form-control" id="inputGroupFile01">
+                                    </div>
+                                </div>
                         </div>
-                        <div class="col-xl-6 col-md-6">
-                            <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-3" style="width:25%" alt="..."><br>
-                            <label for="exampleFormControlTextarea1">Select Imgage</label>
-                            <div class="form-group mb-3">
-                            <input type="file" name="img" class="form-control" id="inputGroupFile01">
-                            </div>
-                        </div>
-                        </div>
-                    </form>
-                        </div>
+                        </form>
+                    </div>
                     <!-- DataTales Example -->
                     <div class="row">
-                    <?php
+                        <?php
                     $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
@@ -356,7 +365,9 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>                                        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
         <!-- Bootstrap core JavaScript-->
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
         <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
