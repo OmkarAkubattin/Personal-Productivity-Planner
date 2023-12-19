@@ -2,19 +2,64 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
-    }
+    
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
         $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
-        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
-        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['gid'])){
+        $goalid=$_POST["gid"];
     }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-goal'])){
+        $goalid=$_POST['update-goal'];
+        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `goals` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`end`='".$_POST['end']."' WHERE `id` = ".$goalid."");
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
+        $goalid=$_POST['add-task'];
+        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`tag`,`created`,`time`, `fk_user`,`fk_goal`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['tag']."','".$_POST['created']."','".$_POST['time']."', '$id', '".$goalid."')");
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
+        $goalid=$_POST['update-task'];
+        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."', `fk_goal`='".$goalid."' WHERE `id`='".$_POST['tid']."'");
+    }
+    $goalid=5;
+    $result=sql_query("SELECT * FROM `goals` WHERE `id` = ".$goalid."");
+    if(mysqli_num_rows($result)>=0){
+        while($row=mysqli_fetch_assoc($result)){
+           $diff = abs(strtotime($row['created']) - strtotime($row['end']));
+           $years = floor($diff / (365*60*60*24));
+           $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+           $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+           $curr=date("Y-m-d");
+           $diff = abs(strtotime($curr) - strtotime($row['end']));
+           $years = floor($diff / (365*60*60*24));
+           $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+           $currday = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        }
+    }
+
+    $result=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$goalid." AND `fk_user`='".$id."'");
+    $compltT=0;
+    $totalT=0;
+    $trash=0;
+    
+    if(mysqli_num_rows($result)>=0){
+        while($row=mysqli_fetch_assoc($result)){
+            if($row['status']==1 && $row['trash']!=1){
+                $compltT++;
+            }
+            if($row['trash']!=1) $totalT++;
+        }
+    }
+    
+
+    
+    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,7 +190,9 @@
             margin: 0;
             padding: 0;
         }
-
+        .form-control{
+            color:black;
+        }
         div.button,
         div.checker,
         div.radio,
@@ -190,37 +237,20 @@
                         </div>
                         <div class="card-body">
                             <?php
-                        if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
-                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
+                            $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`='".$goalid."' ");
                             if (mysqli_num_rows($result) >0) {
                             while($row = mysqli_fetch_assoc($result)){
-                        echo '           
+                        echo '  
                         <form class="row" action="goals.php" method="POST">
-                                <label for="exampleFormControlTextarea1">Task Name</label>
-                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
-                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Start Date</label>
-                                <input name="created" value="'.$row['created'].'" type="date" required></span>
-                                <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                                <input name="created" value="'.$row['created'].'" type="date" required></span>
-                                <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
-                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
-                        </form>';}}
-                    }
-                    else{
-                    echo '           
-                    <form class="row" action="goals.php" method="POST">
-                            <label for="exampleFormControlTextarea1">Task Name</label>
-                            <input type="text" name="name" class="mr-1 form-control add-task" placeholder="What do you need to do today?" required>
+                            <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
                             <div class="my-4"><span><label for="exampleFormControlTextarea1">Start Date</label>
-                            <input name="created" type="date" required></span>
+                            <input name="created" value="'.$row['created'].'" type="date" required></span>
                             <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="created" type="date" required></span>
+                            <input name="end" value="'.$row['end'].'" type="date" required></span>
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
-                            <textarea class="form-control mb-3" name="disc" rows="2"></textarea>
-                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button></div>
-                    </form>';
-                }
+                            <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
+                            <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
+                        </form>';}}
                     ?>
                         </div>
                     </div>
@@ -230,31 +260,31 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4 mt-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Details</h6>
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font-weight-bold">Remaning Days <span
-                                            class="float-right">20%</span></h6>
+                                            class="float-right"><?php echo $currday;?>days</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
+                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php echo floor((($currday/$days))*100);?>%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Comleted Tasks <span
-                                            class="float-right">40%</span></h6>
+                                            class="float-right"><?php echo $compltT;?></span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php echo floor(($compltT/$totalT)*100);?>%"
                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Pending Tasks <span
-                                            class="float-right">60%</span></h6>
+                                            class="float-right"><?php echo ceil((($totalT-$compltT)/$totalT)*100);?>%</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo ceil((($totalT-$compltT)/$totalT)*100);?>%"
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Total Progress <span
-                                            class="float-right">80%</span></h6>
+                                            class="float-right"><?php echo floor(($compltT/$totalT)*100);?>%</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo floor(($compltT/$totalT)*100);?>%"
                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -272,7 +302,8 @@
                             if (mysqli_num_rows($result) >0) {
                             while($row = mysqli_fetch_assoc($result)){
                         echo '           
-                        <form class="row" action="todo.php" method="POST">
+                        <form class="row" action="goals.php" method="POST">
+                        <input type="hidden" name="tid" value="'.$row['id'].' ">
                             <div class="col-xl-3 col-md-6 ">
                                 <label for="exampleFormControlTextarea1">Task Name</label>
                                 <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
@@ -280,26 +311,27 @@
                                 <input name="created" value="'.$row['created'].'" type="date" required></span>
                                 <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
                                 <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
-                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
+                                <button type="submit" name="update-task" value="'.$goalid.'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
                                 <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
-                                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
+                                <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
                                 $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
                                 if (mysqli_num_rows($result1) >0) {
                                 while($row1 = mysqli_fetch_assoc($result1)){
                                 if($row['tag']==$row1['tag']) echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';
-                                else echo '<option name="tag" value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                else echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
                                 echo'</select>
+                                
                             </div>
                             </div>
                         </form>';}}
                     }
                     else{
                     echo '           
-                    <form class="row" action="todo.php" method="POST">
+                    <form class="row" action="goals.php" method="POST">
                         <div class="col-xl-3 col-md-6 ">
                             <label for="exampleFormControlTextarea1">Task Name</label>
                             <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
@@ -307,7 +339,7 @@
                             <input name="created" type="date" required></span>
                             <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
                             <input type="time" name="time" step=900></span></div>
-                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                            <button type="submit" name="add-task" value="'.$goalid.'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
                         </div>
                         <div class="col-xl-9 col-md-6">
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
@@ -317,7 +349,7 @@
                                 $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
                                 if (mysqli_num_rows($result1) >0) {
                                 while($row1 = mysqli_fetch_assoc($result1)){
-                                echo '<option name="tag" value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
+                                echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
                                 echo'</select>
                         </div>
                         
@@ -348,7 +380,7 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goals`= '".$_GET['goals']."' ORDER BY `status` ASC");
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);
