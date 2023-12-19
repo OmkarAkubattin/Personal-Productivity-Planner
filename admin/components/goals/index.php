@@ -121,7 +121,9 @@
             width: 18px;
             height: 18px
         }
-
+        .sidemove{
+            
+        }
         div.checker span {
             display: -moz-inline-box;
             display: inline-block;
@@ -142,7 +144,10 @@
         div.uploader {
             position: relative;
         }
-
+        .sidemove{
+            display:flex;
+            flex-direction:row;
+        }
         div.button,
         div.button *,
         div.checker,
@@ -156,7 +161,12 @@
             margin: 0;
             padding: 0;
         }
-
+        .form-control{
+            width: 80vh;
+        }
+        .mr-2{
+            margin: 2%;
+        }
         div.button,
         div.checker,
         div.radio,
@@ -200,21 +210,24 @@
                         </div>
                         <div class="card-body">
                 <form class="row" action="todo.php" method="POST">
-                        <div class="col-xl-3 col-md-6 ">
-                            <label for="exampleFormControlTextarea1">Goal Name</label>
+                        <div class="col-xl-3 col-md-6 sidemove">
+                            <div class="my-1">
+                            <label for="exampleFormControlTextarea1"class="mr-2">Goal Name</label>
                             <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What's your Goal?" required>
-                            <div class="my-4"><span><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="created" type="date" required></span>
-                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
-                        </div>
-                        <div class="col-xl-9 col-md-6">
-                            <label for="exampleFormControlTextarea1" required>Task Description</label>
+                            <span><label for="exampleFormControlTextarea1">End Date</label>
+                            <input name="created" class="mr-2" type="date" required></span>
+                            <button type="submit" name="add-task" class="mr-2 add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
+                            </div>
+                            <div class="col-xl-9 col-md-6">
+                            <label for="exampleFormControlTextarea1" required>Goal Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
-                            <label for="exampleFormControlTextarea1">Task Tags</label>
-                            <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"></select>
-                        </div>
-                                </div>
-                                </div>
+                            <label for="exampleFormControlTextarea1">Priority Tags</label>
+                            <select name="tag" class="form-select mr-2 form-control add-task" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                <Option>Low Priority</Option>
+                                <Option>Mid Priority</Option>
+                                <Option>High Priority</Option>
+                            </select>
+                            </div>
                         </div>
                     </form>
                 </div>                
