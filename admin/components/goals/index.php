@@ -273,7 +273,8 @@
                                 </div>
                             </div>
                             </div>
-                            </a>
+                            </button>
+                            </form>
                         </div>';}
                         for($i=1;$i<=(6-mysqli_num_rows($result));$i++){
                         echo '<div class="col-md-4 opacity-25">

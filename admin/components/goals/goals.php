@@ -24,7 +24,6 @@
         $goalid=$_POST['update-task'];
         $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."', `fk_goal`='".$goalid."' WHERE `id`='".$_POST['tid']."'");
     }
-    $goalid=5;
     $result=sql_query("SELECT * FROM `goals` WHERE `id` = ".$goalid."");
     if(mysqli_num_rows($result)>=0){
         while($row=mysqli_fetch_assoc($result)){
@@ -39,7 +38,6 @@
            $currday = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
         }
     }
-
     $result=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$goalid." AND `fk_user`='".$id."'");
     $compltT=0;
     $totalT=0;
@@ -236,7 +234,8 @@
                         <div class="card-body">
                             <?php
                             $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`='".$goalid."' ");
-                            if (mysqli_num_rows($result) >0) {
+                            echo "hello";
+                            if (mysqli_num_rows($result) !=0) {
                             while($row = mysqli_fetch_assoc($result)){
                         echo '  
                         <form class="row" action="goals.php" method="POST">
@@ -264,25 +263,25 @@
                                     <h6 class="font-weight-bold">Remaning Days <span
                                             class="float-right"><?php echo $currday;?>days</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php echo floor((($currday/$days))*100);?>%"
+                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($currday/$days)*100);else echo "0";?>%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Comleted Tasks <span
                                             class="float-right"><?php echo $compltT;?></span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php echo floor(($compltT/$totalT)*100);?>%"
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($compltT/$totalT)*100); else echo "0";?>%"
                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Pending Tasks <span
-                                            class="float-right"><?php echo ceil((($totalT-$compltT)/$totalT)*100);?>%</span></h6>
+                                            class="float-right"><?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo ceil((($totalT-$compltT)/$totalT)*100);?>%"
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%"
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Total Progress <span
-                                            class="float-right"><?php echo floor(($compltT/$totalT)*100);?>%</span></h6>
+                                            class="float-right"><?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "0";?>%</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo floor(($compltT/$totalT)*100);?>%"
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";?>%"
                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
