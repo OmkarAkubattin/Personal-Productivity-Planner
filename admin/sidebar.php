@@ -77,7 +77,7 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/goals.php">Goals</a>
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/index.php">Goals</a>
                 <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/complete-goals.php">Completed</a>
                 <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/goals/trash-goals.php">Trash</a>
             </div>
