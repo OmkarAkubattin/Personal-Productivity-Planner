@@ -4,7 +4,7 @@
     $id=$_SESSION['id'];
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-goal'])){
         $imgContent='';
-        if(!empty($_FILES["img"]["name"])) { 
+        if(!empty($_FILES["img"])) { 
             // Get file info 
             $fileName = basename($_FILES["img"]["name"]); 
             $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
@@ -12,10 +12,10 @@
             $allowTypes = array('jpg','png','jpeg','gif'); 
             if(in_array($fileType, $allowTypes)){ 
                 $image = $_FILES['img']['tmp_name']; 
-                $imgContent = addslashes(file_get_contents($image)); 
+                $imgContent = addslashes(file_get_contents($image));
             }
         }
-        die("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
+        // die("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
         $result=sql_query("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
@@ -213,7 +213,7 @@
                             <h6 class="m-0 font-weight-bold text-primary">Goals</h6>
                         </div>
                         <div class="card-body">          
-                    <form class="row" action="index.php" method="POST">
+                    <form class="row" action="index.php" method="POST" enctype="multipart/form-data">
                         <div class="col-xl-6 col-md-6 ">
                             <label for="exampleFormControlTextarea1">Goals Name</label>
                             <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
@@ -245,8 +245,8 @@
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">';
-                                if($row["img"])echo '<img src="data:image/png;base64,'.base64_encode($row["img"]).'" class="img-thumbnail rounded-start" style="width:100%" alt="...">';
-                                else echo '<img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">';
+                                if($row["img"])echo '<img src="data:image/png;base64,'.base64_encode($row["img"]).'" class="img-thumbnail rounded-start" style="width: 250px;height:250px;" alt="...">';
+                                else echo '<img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width: 250px;height:250px;" alt="...">';
                                 echo '</div>
                                 <div class="col-md-6">
                                 <div class="card-body">
@@ -268,7 +268,7 @@
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">
-                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width: 250px;height:250px;" alt="...">
                                 </div>
                                 <div class="col-md-6">
                                 <div class="card-body">
