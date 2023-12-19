@@ -51,10 +51,7 @@
             if($row['trash']!=1) $totalT++;
         }
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-goal'])){
-        $goalid=$_POST['complete-goal'];
-        
-    }
+    
 
     
     
@@ -231,133 +228,9 @@
                 <div class="container-fluid">
                 <!-- Page Heading -->
 
-                <div class="row">          
-                    <div class="col-xl-6 col-md-6">          
-                        <div class="card shadow mb-4 mt-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Goals Details</h6>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                            $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`='".$goalid."' ");
-                            echo "hello";
-                            if (mysqli_num_rows($result) !=0) {
-                            while($row = mysqli_fetch_assoc($result)){
-                        echo '  
-                        <form class="row" action="goals.php" method="POST">
-                            <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
-                            <div class="my-4"><span><label for="exampleFormControlTextarea1">Start Date</label>
-                            <input name="created" value="'.$row['created'].'" type="date" required></span>
-                            <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="end" value="'.$row['end'].'" type="date" required></span>
-                            <label for="exampleFormControlTextarea1" required>Task Description</label>
-                            <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
-                            <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
-                        </form>';}}
-                    ?>
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-xl-6 col-md-6">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4 mt-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Details</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="font-weight-bold">Remaning Days <span
-                                            class="float-right"><?php echo $currday;?>days</span></h6>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($currday/$days)*100);else echo "0";?>%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="font-weight-bold">Comleted Tasks <span
-                                            class="float-right"><?php echo $compltT;?></span></h6>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($compltT/$totalT)*100); else echo "0";?>%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="font-weight-bold">Pending Tasks <span
-                                            class="float-right"><?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%</span></h6>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="font-weight-bold">Total Progress <span
-                                            class="float-right"><?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "0";?>%</span></h6>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";?>%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                </div>  
+               
+               
                 <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                        if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
-                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
-                            if (mysqli_num_rows($result) >0) {
-                            while($row = mysqli_fetch_assoc($result)){
-                        echo '           
-                        <form class="row" action="goals.php" method="POST">
-                        <input type="hidden" name="tid" value="'.$row['id'].' ">
-                            <div class="col-xl-3 col-md-6 ">
-                                <label for="exampleFormControlTextarea1">Task Name</label>
-                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
-                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
-                                <input name="created" value="'.$row['created'].'" type="date" required></span>
-                                <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
-                                <input type="time" value="'.$row['time'].'" name="time" step=900></span></div>
-                                <button type="submit" name="update-task" value="'.$goalid.'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button>
-                            </div>
-                            <div class="col-xl-9 col-md-6">
-                                <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
-                                <label for="exampleFormControlTextarea1">Task Tags</label>
-                                <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                <option value="Personal">Personal</option>
-                                <option value="Private">Private</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Other">Other</option></select>
-                            </div>
-                            </div>
-                        </form>';}}
-                    }
-                    else{
-                    echo '           
-                    <form class="row" action="goals.php" method="POST">
-                        <div class="col-xl-3 col-md-6 ">
-                            <label for="exampleFormControlTextarea1">Task Name</label>
-                            <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
-                            <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
-                            <input name="created" type="date" required></span>
-                            <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
-                            <input type="time" name="time" step=900></span></div>
-                            <button type="submit" name="add-task" value="'.$goalid.'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Task</button>
-                        </div>
-                        <div class="col-xl-9 col-md-6">
-                            <label for="exampleFormControlTextarea1" required>Task Description</label>
-                            <textarea class="form-control" name="disc" rows="3"></textarea>
-                            <label for="exampleFormControlTextarea1">Task Tags</label>
-                            <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
-                                $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
-                                if (mysqli_num_rows($result1) >0) {
-                                while($row1 = mysqli_fetch_assoc($result1)){
-                                echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
-                                echo'</select>
-                        </div>
-                        
-                        </div>
-                    </form>';
-                }
-                    ?>
-                        </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -368,14 +241,12 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th></th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Status</th>
                                                 <th>Tag</th>
-                                                <th>Modity</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -392,7 +263,6 @@
                                                 $strtime=strval(date('H:i a', $time));
                                                 echo '
                                                     <tr>
-                                                    <td><form action="goals.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
                                                     <td>'.$row['name'].'</td>
                                                     <td>'.$row['disc'].'</td>
                                                     <td>';
@@ -405,8 +275,6 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="goals.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
-
                                                 </tr>';
                                                     }
                                                 }
@@ -417,11 +285,7 @@
                         </div>
                     </div>
                     <!-- /.container-fluid -->
-                    <div class="card shadow mb-4">
-                        <form action="goals.php" method="post">
-                        <button type="submit" name="complete-goal" value="<?php echo $goalid;?>" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Goal Completed</button>
-                        </form>
-                    </div>
+
                 </div>
                 <!-- End of Main Content -->
 
