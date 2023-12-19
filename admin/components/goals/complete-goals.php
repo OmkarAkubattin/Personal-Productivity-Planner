@@ -187,20 +187,21 @@
 
                 <!-- Begin Page Content -->
                 
-                <div class="container-fluid" style="padding-left:0;padding-right:0;">
-                    <div class="row align-items-start">
-                        <div class="col" style="padding-right:0;">
-                            <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
-                                <div class="card-body">
-                                    <h4>Completed goal</h4>
-                                    <div class="col-md-4">
-                            <div class="card shadow mb-3">
-                            <div class="row">
-                    <?php
+                <div class="container-fluid mt-4">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    </div>
+                            
+                    <div class="row">
+                        <?php
                     $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="col-md-4">
+                            <form class="row" action="goals.php" method="POST">
+                            <button class="btn btn-block" type="submit" name="gid" value="'.$row['id'].'">
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">';
@@ -221,7 +222,10 @@
                                 </div>
                             </div>
                             </div>
-                        </div>';}
+                            </button>
+                            </form>
+                        </div>
+                        ';}
                         for($i=1;$i<=(6-mysqli_num_rows($result));$i++){
                         echo '<div class="col-md-4 opacity-25">
                             <div class="card shadow mb-3">
@@ -266,12 +270,11 @@
                                         </div>
                                     </div>
                                     </div>
-                                </div>';}
+                                    </div>';}
                         }
                         ?>
-                    </div>
-                    </div>
-                    
+                                </div>
+
                     <!-- /.container-fluid -->
 
                                 </div>
