@@ -3,7 +3,20 @@
     session_start();
     $id=$_SESSION['id'];
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-goal'])){
-        $result=sql_query("INSERT INTO `goals` (`name`,`disc`,`created`,`end`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."', '$id')");
+        $imgContent='';
+        if(!empty($_FILES["img"]["name"])) { 
+            // Get file info 
+            $fileName = basename($_FILES["img"]["name"]); 
+            $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
+            // Allow certain file formats 
+            $allowTypes = array('jpg','png','jpeg','gif'); 
+            if(in_array($fileType, $allowTypes)){ 
+                $image = $_FILES['img']['tmp_name']; 
+                $imgContent = addslashes(file_get_contents($image)); 
+            }
+        }
+        die("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
+        $result=sql_query("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
@@ -214,12 +227,11 @@
                         </div>
                         <div class="col-xl-6 col-md-6">
                             <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-3" style="width:25%" alt="..."><br>
-                            <label for="exampleFormControlTextarea1">Goals Tags</label>
-                            <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="inputGroupFile01">
+                            <label for="exampleFormControlTextarea1">Select Imgage</label>
+                            <div class="form-group mb-3">
+                            <input type="file" name="img" class="form-control" id="inputGroupFile01">
                             </div>
                         </div>
-                        
                         </div>
                     </form>
                         </div>
