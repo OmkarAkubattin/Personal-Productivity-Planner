@@ -33,6 +33,7 @@
     <title>SB Admin 2 - Tables</title>
 
     <!-- Custom fonts for this template -->
+
     <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
         type="text/css">
     <link
@@ -40,18 +41,21 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    
     <link href="/Personal-Productivity-Planner/admin/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="/Personal-Productivity-Planner/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
         </script>
+    
     <script>
         $(function () {
             $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php");
             $("#nav").load("/Personal-Productivity-Planner/admin/nav.php");
             $("#footer").load("/Personal-Productivity-Planner/admin/footer.html");
         });
+        
     </script>
     <style>
         .goals-nav {
@@ -160,63 +164,54 @@
         #wrapper #content-wrapper{
             height:100vh;
         }
-    </style>
+        </style>
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
+        
         <!-- Sidebar -->
         <div id="sidebar"></div>
         <!-- End of Sidebar -->
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            
             <!-- Main Content -->
             <div id="content">
-
+                
                 <!-- Topbar -->
                 <div id="nav"></div>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                
                 <div class="container-fluid" style="padding-left:0;padding-right:0;">
                     <div class="row align-items-start">
                         <div class="col" style="padding-right:0;">
                             <div class="card mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-body">
                                     <h4>Completed goal</h4>
-                                    <?php 
-                                    $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `status`= 1 and `trash`= 0");
-                                    if (mysqli_num_rows($result) >0) {
-                                    while($row = mysqli_fetch_assoc($result)){
-                                        $date=strtotime($row["created"]);
-                                        $today=strtotime("now");
-                                        $tomorrow=strtotime("tomorrow");
-                                        $yesterday=strtotime("yesterday");
-                                        echo '
-                                        <form action="complete-goals.php" method="POST">
-                                        <div class="goals-list" style="border-bottom: 1px solid #ccc;">
-                                        <div class="goals-item">
-                                            <div class="checker"><span class=""><input type="checkbox" onChange="this.form.submit()" name="uncomplete-goal" value="'.$row['id'].'"></span></div>
-                                            <button type="submit" class="btn btn-link" name="open-goal" value="'.$row['id'].'"><span>'.$row["name"].'</span></button>
-                                            <span class="time float-right">';
-                                            if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
-                                            else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
-                                            else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}
-                                        echo'<button type="submit" name="del-goal" value="'.$row['id'].'" class="close ml-3" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </span>
-                                            <div class="m-0 ml-3 pl-4 small">'.$row["disc"].'</div>
-                                        </div>
-                                    </div>
-                                    </form>';
-                                        }
-                                    }
-                                    
-                                    ?>
+                                    <div class="col-md-4">
+                            <div class="card shadow mb-3">
+                            <div class="row">
+                                <div class="col-md-5">
+                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
+                                </div>
+                                <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                    class="float-right">60%</span></h6>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                </div>
+                                </div>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -335,7 +330,6 @@
 
         <!-- Page level custom scripts -->
         <script src="/Personal-Productivity-Planner/admin/js/demo/datatables-demo.js"></script>
-
 </body>
 
 </html>

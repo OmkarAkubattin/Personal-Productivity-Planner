@@ -3,14 +3,14 @@
     session_start();
     $id=$_SESSION['id'];
     
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['gid'])){
+        $goalid=$_POST["gid"];
+    }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-task'])){
         $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
-    }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['gid'])){
-        $goalid=$_POST["gid"];
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-goal'])){
         $goalid=$_POST['update-goal'];
