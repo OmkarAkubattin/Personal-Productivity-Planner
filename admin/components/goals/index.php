@@ -2,8 +2,8 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
-        $result=sql_query("INSERT INTO `todo` (`name`,`disc`,`created`,`time`,`tag`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['time']."','".$_POST['tag']."', '$id')");
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-goal'])){
+        $result=sql_query("INSERT INTO `goals` (`name`,`disc`,`created`,`end`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."', '$id')");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
@@ -12,7 +12,6 @@
         $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
-        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
         $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
     }
     // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
@@ -200,55 +199,21 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Goals</h6>
                         </div>
-                        <div class="card-body">
-                            <?php
-                        if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['edit-task'])){
-                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `id`='".$_POST['edit-task']."' ");
-                            if (mysqli_num_rows($result) >0) {
-                            while($row = mysqli_fetch_assoc($result)){
-                        echo '           
-                        <form class="row" action="todo.php" method="POST">
-                            <div class="col-xl-4 col-md-6 ">
-                                <label for="exampleFormControlTextarea1">Goals Name</label>
-                                <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
-                                <div class="my-4"><span><label for="exampleFormControlTextarea1">Date</label>
-                                <input name="created" value="'.$row['created'].'" type="date" required></span>
-                                <span class="float-right"><label for="exampleFormControlTextarea1">Time</label>
-                                <input name="created" value="'.$row['created'].'" type="date" required></span></div>
-                                <button type="submit" name="update-task" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Goals</button>
-                            </div>
-                            <div class="col-xl-8 col-md-6">
-                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-fluid" alt="...">
-                                <label for="exampleFormControlTextarea1" required>Goals Description</label>
-                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
-                                <label for="exampleFormControlTextarea1">Goals Tags</label>
-                                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">';
-                                $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
-                                if (mysqli_num_rows($result1) >0) {
-                                while($row1 = mysqli_fetch_assoc($result1)){
-                                if($row['tag']==$row1['tag']) echo '<option value="'.$row1['tag'].'">'.$row1['tag'].'</option>';
-                                else echo '<option name="tag" value="'.$row1['tag'].'">'.$row1['tag'].'</option>';}}
-                                echo'</select>
-                            </div>
-                            </div>
-                        </form>';}}
-                    }
-                    else{
-                    echo '           
-                    <form class="row" action="todo.php" method="POST">
+                        <div class="card-body">          
+                    <form class="row" action="index.php" method="POST">
                         <div class="col-xl-6 col-md-6 ">
                             <label for="exampleFormControlTextarea1">Goals Name</label>
                             <input type="text" name="name" class="mr-2 form-control add-task" placeholder="What do you need to do today?" required>
                             <div class="my-3 mb-2"><span><label for="exampleFormControlTextarea1">Start Date</label>
                             <input name="created" type="date" required></span>
                             <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="created" type="date" required></span></div>
+                            <input name="end" type="date" required></span></div>
                             <label for="exampleFormControlTextarea1" required>Goals Description</label>
                             <textarea class="form-control mb-3" name="disc" rows="3"></textarea>
-                            <button type="submit" name="add-task" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Goals</button>
+                            <button type="submit" name="add-goal" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Add New Goals</button>
                         </div>
                         <div class="col-xl-6 col-md-6">
-                            <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-2" style="width:257%" alt="..."><br>
+                            <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-3" style="width:25%" alt="..."><br>
                             <label for="exampleFormControlTextarea1">Goals Tags</label>
                             <div class="input-group mb-3">
                             <input type="file" class="form-control" id="inputGroupFile01">
@@ -256,17 +221,38 @@
                         </div>
                         
                         </div>
-                    </form>';
-                }
-                    ?>
+                    </form>
                         </div>
                     <!-- DataTales Example -->
                     <div class="row">
                     <?php
-                    $result1=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' and `fk_user`='$id'");
-                    if (mysqli_num_rows($result1) >0) {
-                    while($row1 = mysqli_fetch_assoc($result1)){
+                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id'");
+                    if (mysqli_num_rows($result) >0){
+                    while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="col-md-4">
+                            <div class="card shadow mb-3">
+                            <div class="row">
+                                <div class="col-md-5">';
+                                if($row["img"])echo '<img src="data:image/png;base64,'.base64_encode($row["img"]).'" class="img-thumbnail rounded-start" style="width:100%" alt="...">';
+                                else echo '<img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">';
+                                echo '</div>
+                                <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">'.$row['name'].'</h5>
+                                    <p class="card-text small">'.$row['disc'].'</p>
+                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                    class="float-right">60%</span></h6>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>';}
+                        for($i=1;$i<=(6-mysqli_num_rows($result));$i++){
+                        echo '<div class="col-md-4 opacity-25">
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">
@@ -288,47 +274,6 @@
                             </div>
                         </div>';}}
                         ?>
-                        <div class="col-md-4">
-                            <div class="card shadow mb-3">
-                            <div class="row">
-                                <div class="col-md-5">
-                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
-                                </div>
-                                <div class="col-md-6">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
-                                                    class="float-right">60%</span></h6>
-                                            <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
-                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div><div class="col-md-4">
-                            <div class="card shadow mb-3">
-                            <div class="row">
-                                <div class="col-md-5">
-                                <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width:100%" alt="...">
-                                </div>
-                                <div class="col-md-6">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <h6 class="font-weight-bold small mt-4">Pending Goals <span
-                                                    class="float-right">60%</span></h6>
-                                            <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
-                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- /.container-fluid -->
 

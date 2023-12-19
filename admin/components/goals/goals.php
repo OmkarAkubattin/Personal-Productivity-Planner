@@ -14,7 +14,6 @@
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-goal'])){
         $goalid=$_POST['update-goal'];
-        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
         $result=sql_query("UPDATE `goals` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`end`='".$_POST['end']."' WHERE `id` = ".$goalid."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
@@ -23,7 +22,6 @@
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
         $goalid=$_POST['update-task'];
-        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
         $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."', `fk_goal`='".$goalid."' WHERE `id`='".$_POST['tid']."'");
     }
     $goalid=5;
