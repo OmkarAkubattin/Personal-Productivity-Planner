@@ -48,15 +48,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Tags</h6>
-                <?php
-                $result=sql_query("SELECT DISTINCT tag FROM `todo` WHERE tag != '' ");
-                if (mysqli_num_rows($result) >0) {
-                while($row = mysqli_fetch_assoc($result)){
-                    // if(0)
-                    echo '<a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag='.$row['tag'].'">'.$row['tag'].'</a>';
-                }
-            }
-                ?>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Personal">Personal</a>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Work">Work</a>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Other">Other</a>
             </div>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

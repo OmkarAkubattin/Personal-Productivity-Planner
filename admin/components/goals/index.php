@@ -285,6 +285,30 @@
                             </div>
                             </div>
                         </div>';}}
+                        else{
+                            for($i=1;$i<=6;$i++){
+                                echo '<div class="col-md-4 opacity-25">
+                                    <div class="card shadow mb-3">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                        <img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start" style="width: 250px;height:250px;" alt="...">
+                                        </div>
+                                        <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            <h6 class="font-weight-bold small mt-4">Pending Goals <span
+                                                            class="float-right">60%</span></h6>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>';}
+                        }
                         ?>
                     </div>
                     <!-- /.container-fluid -->
