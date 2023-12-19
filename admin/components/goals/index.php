@@ -251,6 +251,8 @@
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="col-md-4">
+                            <form class="row" action="goals.php" method="POST">
+                            <button class="btn btn-link" type="submit" name="gid" value="'.$row['id'].'">
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">';
@@ -271,6 +273,7 @@
                                 </div>
                             </div>
                             </div>
+                            </a>
                         </div>';}
                         for($i=1;$i<=(6-mysqli_num_rows($result));$i++){
                         echo '<div class="col-md-4 opacity-25">
