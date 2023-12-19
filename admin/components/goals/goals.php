@@ -353,64 +353,6 @@
                 }
                     ?>
                         </div>
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Sub Task</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                                <th>Tag</th>
-                                                <th>Modity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
-                                            if (mysqli_num_rows($result) >0) {
-                                            while($row = mysqli_fetch_assoc($result)){
-                                                $date=strtotime($row["created"]);
-                                                $strdate=strval(date('d-M-y', $date));
-                                                $today=strtotime("now");
-                                                $tomorrow=strtotime("tomorrow");
-                                                $yesterday=strtotime("yesterday");
-                                                $time=strtotime($row["time"]);
-                                                $strtime=strval(date('H:i a', $time));
-                                                echo '
-                                                    <tr>
-                                                    <td><form action="goals.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
-                                                    <td>'.$row['name'].'</td>
-                                                    <td>'.$row['disc'].'</td>
-                                                    <td>';
-                                                    if(strval(date('d-M-y', $today))==strval(date('d-M-y', $date))){echo "Today";}
-                                                    else if(strval(date('d-M-y', $tomorrow))==strval(date('d-M-y', $date))){echo "Tomorrow";}
-                                                    else if(strval(date('d-M-y', $yesterday))==strval(date('d-M-y', $date))){echo "Yesterday";}else{echo $strdate;}
-                                                echo'</td>
-                                                    <td>'.$strtime.'</td>
-                                                    <td>';
-                                                    if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
-                                                echo'</td>
-                                                    <td>'.$row['tag'].'</td>
-                                                    <td><form action="goals.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
-
-                                                </tr>';
-                                                    }
-                                                }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                            </div>
-                        </div>
-                    </div>
                     <!-- /.container-fluid -->
 
                 </div>
