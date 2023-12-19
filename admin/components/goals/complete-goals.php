@@ -36,6 +36,8 @@
 
     <link href="/Personal-Productivity-Planner/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
         type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -226,7 +228,7 @@
                             </form>
                         </div>
                         ';}
-                        for($i=1;$i<=(6-mysqli_num_rows($result));$i++){
+                        for($i=1;$i<=(9-mysqli_num_rows($result));$i++){
                         echo '<div class="col-md-4 opacity-25">
                             <div class="card shadow mb-3">
                             <div class="row">
@@ -249,7 +251,7 @@
                             </div>
                         </div>';}}
                         else{
-                            for($i=1;$i<=6;$i++){
+                            for($i=1;$i<=9;$i++){
                                 echo '<div class="col-md-4 opacity-25">
                                     <div class="card shadow mb-3">
                                     <div class="row">
@@ -274,66 +276,6 @@
                         }
                         ?>
                                 </div>
-
-                    <!-- /.container-fluid -->
-
-                                </div>
-                            </div>
-                        </div>
-                            <div class="col" style="padding-left:0;">
-                                <div class="card mb-4" style="border: 0px;border-radius: 0;">
-                                    <div class="card-body">
-                                    <?php
-                                    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['open-goal'])){
-                                        $_SESSION['goal-id']=intval($_POST['open-goal']);
-                                        $result=sql_query("SELECT * FROM `goals` WHERE `id` = ".$_SESSION['goal-id']."");
-                                        if (mysqli_num_rows($result) >0) {
-                                            while($row = mysqli_fetch_assoc($result)){
-                                                $startdate=strtotime($row["created"]);
-                                                $strstartdate=strval(date('Y-m-d', $startdate));
-                                                $enddate=strtotime($row["end"]);
-                                                $strenddate=strval(date('Y-m-d', $enddate));
-                                                // die($strtime);
-                                                echo '<form action="goals.php" method="POST">
-                                                        <div class="p-2 bg-white notes">
-                                                        <div class="d-flex flex-row align-items-center notes-title">
-                                                        <span class=""><input type="checkbox" style="width: 19px;height: 19px;"></span>
-                                                        <span><h4>&nbsp;'.$row['name'].'</h4></span>
-                                                        <span class="float-right">
-                                                        <span class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                                                <a class="dropdown-item" href="#">Re-schedule</a>
-                                                                <a class="dropdown-item" href="#">Won\'t Do</a>
-                                                                <a class="dropdown-item" href="#">Trash</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                            </div>
-                                                        </span>
-                                            </div>
-                                            Start Date&nbsp;&nbsp;<input onChange="this.form.submit()" style="border:none;" name="date-change" type="date" value="'.$strstartdate.'" min="'.$strstartdate.'" ">
-                                            <span class="float-right">
-                                            <input type="time" onChange="this.form.submit()" style="border:none;" name="time-change" type="date" value="'.$strtime.'" min=9:00 max=12:00 step=900>
-                                            </span>
-                                        </div>
-                                        <div class="p-2 bg-white">
-                                        <label for="exampleFormControlTextarea1">Description</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:none;" rows="10" onChange="this.form.submit()" name="disc-change">'.$row['disc'].'</textarea>
-                                        
-                                        </div> 
-                                    </div>
-                                    </form>';
-                                }
-                            }
-                        }
-                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.container-fluid -->
 
                 </div>
                 <!-- End of Main Content -->
@@ -380,6 +322,8 @@
         </div>
 
         <!-- Bootstrap core JavaScript-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>                                        
+
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>
         <script src="/Personal-Productivity-Planner/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
