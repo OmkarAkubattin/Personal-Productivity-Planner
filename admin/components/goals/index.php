@@ -15,7 +15,7 @@
                 $imgContent = addslashes(file_get_contents($image)); 
             }
         }
-        die("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
+        // die("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
         $result=sql_query("INSERT INTO `goals` (`name`,`disc`,`created`,`end`,`img`, `fk_user`) VALUES ('".$_POST['name']."','".$_POST['disc']."','".$_POST['created']."','".$_POST['end']."','$imgContent', '$id')");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
@@ -238,7 +238,7 @@
                     <!-- DataTales Example -->
                     <div class="row">
                     <?php
-                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id'");
+                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="col-md-4">
