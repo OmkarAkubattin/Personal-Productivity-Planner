@@ -235,7 +235,7 @@
                         </div>
                         <div class="col-xl-9 col-md-6">
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
-                            <textarea class="form-control" name="disc" rows="3"></textarea>
+                            <textarea class="form-control" name="disc" rows="1"></textarea>
                             <label for="exampleFormControlTextarea1">Task Priority</label>
                             <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="1">Urgent & Important</option>
