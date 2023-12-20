@@ -234,7 +234,7 @@
                 <!-- Page Heading -->
 
                 <div class="row">          
-                    <div class="col-xl-6 col-md-6">          
+                    <div class="col-xl-8 col-md-6">          
                         <div class="card shadow mb-4 mt-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Goals Details</h6>
@@ -246,20 +246,30 @@
                             while($row = mysqli_fetch_assoc($result)){
                         echo '  
                         <form class="row" action="goals.php" method="POST">
-                            <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
-                            <div class="my-4"><span><label for="exampleFormControlTextarea1">Start Date</label>
-                            <input name="created" value="'.$row['created'].'" type="date" required></span>
-                            <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
-                            <input name="end" value="'.$row['end'].'" type="date" required></span>
-                            <label for="exampleFormControlTextarea1" required>Task Description</label>
-                            <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
-                            <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
+                                <div class="col-xl-6 col-md-6 ">
+                                    <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
+                                    <div class="my-2"><span><label for="exampleFormControlTextarea1">Start Date</label>
+                                    <input name="created" value="'.$row['created'].'" type="date" required></span>
+                                    <span class="float-right"><label for="exampleFormControlTextarea1">End Date</label>
+                                    <input name="end" value="'.$row['end'].'" type="date" required></span><br>
+                                    <label for="exampleFormControlTextarea1" required>Task Description</label>
+                                    <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
+                                    <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
+                                </div>
+                                <div class="col-xl-6 col-md-6">
+                                    <img src="data:image/png;base64,'.base64_encode($row["img"]).'"
+                                        class="img-thumbnail rounded-start mb-3" style="width:33%" alt="..."><br>
+                                    <label for="exampleFormControlTextarea1">Select Imgage</label>
+                                    <div class="form-group mb-3">
+                                        <input type="file" name="img" class="form-control" id="inputGroupFile01">
+                                    </div>
+                                </div>
                         </form>';}}
                     ?>
                         </div>
                     </div>
                 </div> 
-                <div class="col-xl-6 col-md-6">
+                <div class="col-xl-4 col-md-6">
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4 mt-4">
@@ -319,7 +329,7 @@
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
+                                <textarea class="form-control" name="disc" rows="1">'.$row['disc'].'</textarea>
                                 <label for="exampleFormControlTextarea1">Task Priority</label>
                                 <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="1">Urgent & Important</option>
