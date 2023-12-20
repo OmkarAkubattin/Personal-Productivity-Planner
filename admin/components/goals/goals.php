@@ -15,8 +15,20 @@
         $result=sql_query("UPDATE `todo` SET `status` = '1' WHERE `id` = ".$_POST['complete-task']."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-goal'])){
+        $imgContent='';
+        if(!empty($_FILES["img"])) { 
+            // Get file info 
+            $fileName = basename($_FILES["img"]["name"]); 
+            $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
+            // Allow certain file formats 
+            $allowTypes = array('jpg','png','jpeg','gif'); 
+            if(in_array($fileType, $allowTypes)){ 
+                $image = $_FILES['img']['tmp_name']; 
+                $imgContent = addslashes(file_get_contents($image));
+            }
+        }
         $goalid=$_POST['update-goal'];
-        $result=sql_query("UPDATE `goals` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`end`='".$_POST['end']."' WHERE `id` = ".$goalid."");
+        $result=sql_query("UPDATE `goals` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`end`='".$_POST['end']."',`img`='$imgContent' WHERE `id` = ".$goalid."");
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
         $goalid=$_POST['add-task'];
@@ -245,7 +257,7 @@
                             if (mysqli_num_rows($result) !=0) {
                             while($row = mysqli_fetch_assoc($result)){
                         echo '  
-                        <form class="row" action="goals.php" method="POST">
+                        <form class="row" action="goals.php" method="POST" enctype="multipart/form-data">
                                 <div class="col-xl-6 col-md-6 ">
                                     <input type="text" name="name" class="mr-2 form-control add-task" value="'.$row['name'].'" placeholder="What do you need to do today?" required>
                                     <div class="my-2"><span><label for="exampleFormControlTextarea1">Start Date</label>
@@ -256,9 +268,10 @@
                                     <textarea class="form-control mb-3" name="disc" rows="3">'.$row['disc'].'</textarea>
                                     <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
                                 </div>
-                                <div class="col-xl-6 col-md-6">
-                                    <img src="data:image/png;base64,'.base64_encode($row["img"]).'"
-                                        class="img-thumbnail rounded-start mb-3" style="width:33%" alt="..."><br>
+                                <div class="col-xl-6 col-md-6">';
+                                    if($row['img']){echo '<img src="data:image/png;base64,'.base64_encode($row["img"]).'" class="img-thumbnail rounded-start mb-3" style="width:33%" alt="...">';}
+                                    else{echo '<img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-3" style="width:33%" alt="...">';}
+                                    echo '<br>
                                     <label for="exampleFormControlTextarea1">Select Imgage</label>
                                     <div class="form-group mb-3">
                                         <input type="file" name="img" class="form-control" id="inputGroupFile01">
