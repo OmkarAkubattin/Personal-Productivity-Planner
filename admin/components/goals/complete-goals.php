@@ -204,7 +204,7 @@
                             
                     <div class="row">
                         <?php
-                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `id`!=0");
+                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `status`='1' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="col-md-4">

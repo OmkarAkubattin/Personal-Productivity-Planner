@@ -13,11 +13,11 @@ var totalT = parseInt(document.getElementById("totalT").getAttribute('value'));
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Completed", "Pending", "Failed"],
+    labels: ["Completed", "Pending","Failed"],
     datasets: [{
-      data: [complT,pendingT ,(totalT-complT-pendingT)],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      data: [complT,pendingT,(totalT-complT-pendingT)],
+      backgroundColor: ['#1cc88a', '#36b9cc','#fc9630'],
+      hoverBackgroundColor: ['#17a673', '#2c9faf','#e38424'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },

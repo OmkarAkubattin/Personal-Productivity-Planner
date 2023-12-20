@@ -250,9 +250,20 @@
                     <!-- DataTales Example -->
                     <div class="row">
                         <?php
-                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `id`!=0");
+                    $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `status`='0' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
+                        $result=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$row['id']." AND `fk_user`='".$id."'");
+                        $compltT=0;
+                        $totalT=0;                        
+                        if(mysqli_num_rows($result)>=0){
+                            while($task=mysqli_fetch_assoc($result)){
+                                if($task['status']==1 && $task['trash']!=1){
+                                    $compltT++;
+                                }
+                                if($task['trash']!=1) $totalT++;
+                            }
+                        }
                     echo '<div class="col-md-4">
                             <form class="row" action="goals.php" method="POST">
                             <button class="btn btn-link" type="submit" name="gid" value="'.$row['id'].'">
@@ -267,9 +278,13 @@
                                     <h5 class="card-title">'.$row['name'].'</h5>
                                     <p class="card-text small">'.$row['disc'].'</p>
                                     <h6 class="font-weight-bold small mt-4">Pending Goals <span
-                                                    class="float-right">60%</span></h6>
+                                                    class="float-right">';
+                                                    if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";
+                                                    echo '%</span></h6>
                                             <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 60%;"
+                                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width:';
+                                                if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";
+                                                echo '%;"
                                                     aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                 </div>

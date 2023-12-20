@@ -24,24 +24,29 @@
         $goalid=$_POST['update-task'];
         $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."', `fk_goal`='".$goalid."' WHERE `id`='".$_POST['tid']."'");
     }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-goal'])){
+        $goalid=$_POST['complete-goal'];
+    }
     $result=sql_query("SELECT * FROM `goals` WHERE `id` = ".$goalid."");
     if(mysqli_num_rows($result)>=0){
         while($row=mysqli_fetch_assoc($result)){
-           $diff = abs(strtotime($row['created']) - strtotime($row['end']));
-           $years = floor($diff / (365*60*60*24));
-           $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-           $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-           $curr=date("Y-m-d");
-           $diff = abs(strtotime($curr) - strtotime($row['end']));
-           $years = floor($diff / (365*60*60*24));
-           $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-           $currday = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+            $date1 = new DateTime($row['created']);
+            $date2 = new DateTime($row['end']);
+            $interval = $date1->diff($date2);
+            // Get the difference in days
+            $days = $interval->days;
+
+            $date1 = new DateTime(date('Y-m-d'));
+            $date2 = new DateTime($row['end']);
+            $interval = $date1->diff($date2);
+            $currday = $interval->days;
+
+
         }
     }
     $result=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$goalid." AND `fk_user`='".$id."'");
     $compltT=0;
     $totalT=0;
-    $trash=0;
     
     if(mysqli_num_rows($result)>=0){
         while($row=mysqli_fetch_assoc($result)){
@@ -51,12 +56,12 @@
             if($row['trash']!=1) $totalT++;
         }
     }
-    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-goal'])){
-        $goalid=$_POST['complete-goal'];
-        
+    
+    if(($compltT==$totalT) && $_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['complete-goal'])){
+            $result=sql_query("UPDATE `goals` SET `status`='1' WHERE `id`='".$goalid."'");
     }
 
-    
+   
     
 
 ?>
@@ -269,7 +274,7 @@
                                     <h6 class="font-weight-bold">Remaning Days <span
                                             class="float-right"><?php echo $currday;?>days</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($currday/$days)*100);else echo "0";?>%"
+                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php echo floor(($currday*100)/$days);?>%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Comleted Tasks <span
@@ -285,7 +290,7 @@
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Total Progress <span
-                                            class="float-right"><?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "0";?>%</span></h6>
+                                            class="float-right"><?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";?>%</span></h6>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-info" role="progressbar" style="width: <?php if($totalT!=0) echo floor(($compltT/$totalT)*100);else echo "100";?>%"
                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
