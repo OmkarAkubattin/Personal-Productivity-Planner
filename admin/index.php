@@ -271,11 +271,11 @@
                                 <div class="card-header py-3">
                                     <?php 
                                         $goalid='';
-                                        $today=strtotime("now");
+                                        $today=Date("Y-m-d");
                                         $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`!=0 ");
                                         if (mysqli_num_rows($result) >0) {
-                                        while($row = mysqli_fetch_assoc($result)){
-                                                if((strtotime($row['end'])-$today)<0) {
+                                        if($row = mysqli_fetch_assoc($result)){
+                                                if((strtotime($row['end'])-strtotime($today))>0) {
                                                     $goalid=$row['id'];
                                                     echo '<h6 class="m-0 font-weight-bold text-primary">Current Goal Sub Task : '.$row['name'].'</h6>';
 
