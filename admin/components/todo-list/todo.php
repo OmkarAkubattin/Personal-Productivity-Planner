@@ -211,7 +211,7 @@
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>
-                                <option value="Private">Private</option>
+                                <option value="Work">Work</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Other">Other</option></select>
                             </div>
@@ -242,7 +242,7 @@
                             <label for="exampleFormControlTextarea1">Task Tags</label>
                             <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                             <option value="Personal">Personal</option>
-                            <option value="Private">Private</option>
+                            <option value="Work">Work</option>
                             <option value="Regular">Regular</option>
                             <option value="Other">Other</option></select>
                         </div>

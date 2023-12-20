@@ -212,7 +212,7 @@
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>
-                                <option value="Private">Private</option>
+                                <option value="Work">Work</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Other">Other</option></select>
                             </div>
@@ -234,10 +234,10 @@
                         <div class="col-xl-9 col-md-6">
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
-                            <label for="exampleFormControlTextarea1">Task Tags</label>
+                            <label for="exampleFormControlTextarea1">Task Tags</labssel>
                             <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>
-                                <option value="Private">Private</option>
+                                <option value="Work">Work</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Other">Other</option></select>
                         </div>
