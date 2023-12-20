@@ -268,21 +268,21 @@
                                 </div>
                                 <div class="card-body">
                                     <h6 class="font-weight-bold">Remaning Days <span
-                                            class="float-right"><?php echo $currday;?>days</span></h6>
+                                            class="float-right"><?php echo $currday;$remaind=100-floor(($currday*100)/$days);?>days</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-" role="progressbar" style="width: <?php echo floor(($currday*100)/$days);?>%"
+                                        <div class="progress-bar bg-<?php if($currday<($days)/3) echo "danger";else "";?>" role="progressbar" style="width: <?php echo $remaind; ?>%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Comleted Tasks <span
                                             class="float-right"><?php echo $compltT;?></span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($compltT/$totalT)*100); else echo "0";?>%"
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: <?php if($totalT!=0)echo floor(($compltT/$totalT)*100); else echo "0";?>%"
                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Pending Tasks <span
                                             class="float-right"><?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%</span></h6>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%"
+                                        <div class="progress-bar bg-warning " role="progressbar" style="width: <?php if($totalT!=0) echo ceil((($totalT-$compltT)/$totalT)*100);else echo "0";?>%"
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="font-weight-bold">Total Progress <span
@@ -329,7 +329,7 @@
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>
-                                <option value="Private">Private</option>
+                                <option value="Work">Work</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Other">Other</option></select>
                             </div>
@@ -360,7 +360,7 @@
                             <label for="exampleFormControlTextarea1">Task Tags</label>
                             <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                             <option value="Personal">Personal</option>
-                            <option value="Private">Private</option>
+                            <option value="Work">Work</option>
                             <option value="Regular">Regular</option>
                             <option value="Other">Other</option></select>
                         </div>
