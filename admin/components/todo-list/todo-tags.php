@@ -277,7 +277,7 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `tag`='".$_GET['tag']."' ORDER BY `status` ASC");
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `tag`='".$_POST['tag']."' ORDER BY `status` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);
