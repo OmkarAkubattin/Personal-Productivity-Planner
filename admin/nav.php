@@ -97,10 +97,9 @@
                 $email=$_SESSION['email'];
                 $result=sql_query("SELECT * FROM `users` WHERE `email`='$email'");
                 if (mysqli_num_rows($result) >0) {
-                while($row = mysqli_fetch_assoc($result)){
-                    if(isset($row["img"])) echo'<img class="img-profile rounded-circle" src="data:image/png;base64,'.base64_encode($row["img"]).'" alt="..." width="35px">';
-                    else echo'<img class="img-profile rounded-circle" src="/Personal-Productivity-Planner/admin/img/avtar.png" alt="..." width="35px">';
-                    }
+                if($row = mysqli_fetch_assoc($result)){
+                    echo'<img class="img-profile rounded-circle" src="/Personal-Productivity-Planner/admin/img/avtar.png" alt="..." width="35px">';             
+                }
                 }?>
                 <!-- <img class="img-profile rounded-circle"
                     src="/Personal-Productivity-Planner/admin/img/undraw_profile.svg"> -->
