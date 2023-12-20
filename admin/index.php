@@ -217,7 +217,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Content Row -->
                     <div class="row">
                         <!-- Area Chart -->
@@ -267,18 +266,16 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <div class="row">
                         <div class="col-xl-6 col-md-6">
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <?php 
                                         $goalid='';
-                                        $today=Date("Y-m-d");
-                                        $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`!='0' ");
+                                        $today=strtotime("now");
+                                        $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`!=0 ");
                                         if (mysqli_num_rows($result) >0) {
-                                        if($row = mysqli_fetch_assoc($result)){
-                                                if((strtotime($row['end'])-strtotime($today))>0) {
+                                        while($row = mysqli_fetch_assoc($result)){
+                                                if((strtotime($row['end'])-$today)<0) {
                                                     $goalid=$row['id'];
                                                     echo '<h6 class="m-0 font-weight-bold text-primary">Current Goal Sub Task : '.$row['name'].'</h6>';
 
@@ -302,7 +299,6 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    if($goalid!=""){
                                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
                                                     if (mysqli_num_rows($result) >0) {
                                                     while($row = mysqli_fetch_assoc($result)){
@@ -320,7 +316,6 @@
                                                         </tr>';
                                                             }
                                                         }
-                                                    }
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -328,7 +323,7 @@
                                 </div>
                             </div>
                             </div>
-                    </div>
+
                     
 
                 </div>

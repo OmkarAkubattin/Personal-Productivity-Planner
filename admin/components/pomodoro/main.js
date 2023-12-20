@@ -39,6 +39,7 @@ const timer = {
     progress.value = timer[timer.mode] * 60 - timer.remainingTime.total;
   }
   
+  const buttonSound = new Audio('button-sound.mp3');
   function startTimer() {
     let { total } = timer.remainingTime;
     const endTime = Date.parse(new Date()) + total * 1000;
@@ -143,6 +144,5 @@ const timer = {
         }
       });
     }
-  
     switchMode('pomodoro');
   });

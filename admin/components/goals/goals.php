@@ -2,7 +2,6 @@
     include "../../../conn.php";
     session_start();
     $id=$_SESSION['id'];
-    
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['gid'])){
         $goalid=$_POST["gid"];
     }
@@ -368,11 +367,11 @@
                     </form>';
                 }
                     ?>
-                    </div>
-                    <!-- DataTales Example -->
+                        </div>
+                        <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Sub Task</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -391,7 +390,7 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`=".$goalid." ORDER BY `status` ASC");
+                                            $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
                                             if (mysqli_num_rows($result) >0) {
                                             while($row = mysqli_fetch_assoc($result)){
                                                 $date=strtotime($row["created"]);
@@ -403,7 +402,7 @@
                                                 $strtime=strval(date('H:i a', $time));
                                                 echo '
                                                     <tr>
-                                                    <td><form action="goals.php" method="POST"><div class="checker"><input type="hidden" name="gid" value="'.$goalid.'"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
+                                                    <td><form action="goals.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
                                                     <td>'.$row['name'].'</td>
                                                     <td>'.$row['disc'].'</td>
                                                     <td>';
@@ -416,8 +415,7 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="goals.php" method="POST"><span><input type="hidden" name="gid" value="'.$goalid.'"><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
-
+                                                    <td><form action="goals.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
                                                 </tr>';
                                                     }
                                                 }
