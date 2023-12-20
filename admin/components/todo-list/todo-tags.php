@@ -205,6 +205,7 @@
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
                                 <textarea class="form-control" name="disc" rows="1">'.$row['disc'].'</textarea>
+                            <label for="exampleFormControlTextarea1">Task Priority</label>
                                 <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="1">Urgent & Important</option>
                                 <option value="2">Urgent & Not Important</option>
@@ -235,8 +236,14 @@
                         <div class="col-xl-9 col-md-6">
                             <label for="exampleFormControlTextarea1" required>Task Description</label>
                             <textarea class="form-control" name="disc" rows="3"></textarea>
-                            <label for="exampleFormControlTextarea1">Task Tags</labssel>
-                            <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                            <label for="exampleFormControlTextarea1">Task Priority</label>
+                            <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                <option value="1">Urgent & Important</option>
+                                <option value="2">Urgent & Not Important</option>
+                                <option value="3">Not Urgent & Important</option>
+                                <option value="4">Not Urgent & Not Important</option></select>
+                                <label for="exampleFormControlTextarea1">Task Tags</label>
+                                <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>
                                 <option value="Work">Work</option>
                                 <option value="Regular">Regular</option>
