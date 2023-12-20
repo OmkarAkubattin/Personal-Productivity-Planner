@@ -236,11 +236,11 @@
                     $result=sql_query("SELECT * FROM goals WHERE `fk_user`='$id' and `status`='0' and `id`!=0");
                     if (mysqli_num_rows($result) >0){
                     while($row = mysqli_fetch_assoc($result)){
-                        $result=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$row['id']." AND `fk_user`='".$id."'");
+                        $rs=sql_query("SELECT * FROM `todo` WHERE `fk_goal` = ".$row['id']." AND `fk_user`='".$id."'");
                         $compltT=0;
                         $totalT=0;                        
-                        if(mysqli_num_rows($result)>=0){
-                            while($task=mysqli_fetch_assoc($result)){
+                        if(mysqli_num_rows($rs)>=0){
+                            while($task=mysqli_fetch_assoc($rs)){
                                 if($task['status']==1 && $task['trash']!=1){
                                     $compltT++;
                                 }
