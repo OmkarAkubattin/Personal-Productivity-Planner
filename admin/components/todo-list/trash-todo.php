@@ -154,6 +154,15 @@
             zoom: 1;
             vertical-align: middle;
         }
+        #wrapper #content-wrapper{
+            height:100vh;
+        }
+        footer{
+            display:block;
+            position: fixed;
+            left: 50%;
+            bottom:0;
+        }
     </style>
 </head>
 
