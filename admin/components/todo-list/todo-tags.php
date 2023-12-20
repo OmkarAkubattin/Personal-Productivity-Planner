@@ -152,6 +152,9 @@
             zoom: 1;
             vertical-align: middle;
         }
+        #wrapper #content-wrapper{
+            height:100vh;
+        }
     </style>
 </head>
 
@@ -183,7 +186,7 @@
                             
                 <div class="card shadow mb-4 mt-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Tasks Details</h6>
                         </div>
                         <div class="card-body">
                         <?php
@@ -213,10 +216,7 @@
                             <option value="4"';if($row['type']=='4'){echo "selected";}echo'>Not Urgent & Not Important</option></select>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                <option value="Personal">Personal</option>
-                                <option value="Work">Work</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Other">Other</option></select>
+                                <option value="'.$_GET['tag'].'">'.$_GET['tag'].'</option></select>
                             </div>
                             </div>
                         </form>';}}
@@ -244,10 +244,8 @@
                                 <option value="4">Not Urgent & Not Important</option></select>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                <option value="Personal">Personal</option>
-                                <option value="Work">Work</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Other">Other</option></select>
+                                <option value="'.$_GET['tag'].'">'.$_GET['tag'].'</option></select>
+                                
                         </div>
                         
                         </div>
@@ -258,7 +256,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Tasks</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $_GET['tag'];?> Tasks</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

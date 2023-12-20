@@ -45,6 +45,11 @@ if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['login'])){
 
     <!-- Custom styles for this template-->
     <link href="/Personal-Productivity-Planner/admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .container{
+            padding-top:10vh;
+        }
+        </style>
 
 </head>
 
