@@ -204,13 +204,13 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Completed
+                                            <i class="fas fa-circle text-success"></i> Completed
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Pending
+                                            <i class="fas fa-circle text-info"></i> Pending
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Failed
+                                            <i class="fas fa-circle text-warning"></i> Failed
                                         </span>
                                     </div>
                                 </div>
