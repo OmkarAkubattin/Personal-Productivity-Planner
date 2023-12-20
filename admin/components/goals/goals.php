@@ -269,7 +269,6 @@
                                     <button type="submit" name="update-goal" value="'.$row['id'].'" class="add btn btn-primary btn-block font-weight-bold todo-list-add-btn">Update Task</button></div>
                                 </div>
                                 <div class="col-xl-6 col-md-6">';
-                                    // die(var_dump($row['img']));
                                     if($row['img']){echo '<img src="data:image/png;base64,'.base64_encode($row["img"]).'" class="img-thumbnail rounded-start mb-3" style="width:33%" alt="...">';}
                                     else{echo '<img src="/Personal-Productivity-Planner/admin/img/img.jpg" class="img-thumbnail rounded-start mb-3" style="width:33%" alt="...">';}
                                     echo '<br>
