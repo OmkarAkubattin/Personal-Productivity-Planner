@@ -5,6 +5,9 @@
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['gid'])){
         $goalid=$_POST["gid"];
     }
+    if(isset($_GET['gid'])){
+        $goalid=$_GET["gid"];
+    }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del-task'])){
         $result=sql_query("UPDATE `todo` SET `trash` = '1' WHERE `id` = ".$_POST['del-task']."");
     }
@@ -239,7 +242,6 @@
                         <div class="card-body">
                             <?php
                             $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`='".$goalid."' ");
-                            echo "hello";
                             if (mysqli_num_rows($result) !=0) {
                             while($row = mysqli_fetch_assoc($result)){
                         echo '  
@@ -402,7 +404,7 @@
                                                 $strtime=strval(date('H:i a', $time));
                                                 echo '
                                                     <tr>
-                                                    <td><form action="goals.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
+                                                    <td><form action="goals.php?gid='.$goalid.'" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
                                                     <td>'.$row['name'].'</td>
                                                     <td>'.$row['disc'].'</td>
                                                     <td>';
@@ -415,7 +417,7 @@
                                                     if($row['status']==1){echo '<span class="badge badge-pill badge-success mb-2 ">Completed</span>';}else if($row['status']==0 and date('d-M-y', $today)>date('d-M-y', $date)){echo '<span class="badge badge-pill badge-danger mb-2 ">Due</span>';}else{echo '<span class="badge badge-pill badge-warning mb-2 ">Pending</span>';}
                                                 echo'</td>
                                                     <td>'.$row['tag'].'</td>
-                                                    <td><form action="goals.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+                                                    <td><form action="goals.php?gid='.$goalid.'" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
                                                 </tr>';
                                                     }
                                                 }
