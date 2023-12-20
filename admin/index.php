@@ -273,7 +273,7 @@
                                     <?php 
                                         $goalid='';
                                         $today=strtotime("now");
-                                        $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id'");
+                                        $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id' and `id`!=0 ");
                                         if (mysqli_num_rows($result) >0) {
                                         while($row = mysqli_fetch_assoc($result)){
                                                 if((strtotime($row['end'])-$today)<0) {
