@@ -15,21 +15,8 @@
         $_GET['tag']=mysqli_fetch_assoc($result)['tag'];
     }
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
-        // die("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
-        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."' WHERE `id` = ".$_POST['update-task']."");
+        $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."',`type`='".$_POST['type']."' WHERE `id` = ".$_POST['update-task']."");
     }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['date-change'])){
-    //     $result=sql_query("UPDATE `todo` SET `created` = '".$_POST['date-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    // }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['time-change'])){
-    //     $result=sql_query("UPDATE `todo` SET `time` = '".$_POST['time-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    // }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['disc-change'])){
-    //     $result=sql_query("UPDATE `todo` SET `disc` = '".$_POST['disc-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    // }
-    // if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['tag-change'])){
-    //     $result=sql_query("UPDATE `todo` SET `tag` = '".$_POST['tag-change']."' WHERE `id` = ".$_SESSION['task-id']."");
-    // }
 
 ?>
 <!DOCTYPE html>
@@ -221,7 +208,12 @@
                             </div>
                             <div class="col-xl-9 col-md-6">
                                 <label for="exampleFormControlTextarea1" required>Task Description</label>
-                                <textarea class="form-control" name="disc" rows="3">'.$row['disc'].'</textarea>
+                                <textarea class="form-control" name="disc" rows="1">'.$row['disc'].'</textarea>
+                                <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                <option value="1">Urgent & Important</option>
+                                <option value="2">Urgent & Not Important</option>
+                                <option value="3">Not Urgent & Important</option>
+                                <option value="4">Not Urgent & Not Important</option></select>
                                 <label for="exampleFormControlTextarea1">Task Tags</label>
                                 <select name="tag" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                                 <option value="Personal">Personal</option>

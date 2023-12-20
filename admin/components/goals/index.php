@@ -265,8 +265,8 @@
                             }
                         }
                     echo '<div class="col-md-4">
-                            <form class="row" action="goals.php" method="POST">
-                            <button class="btn btn-link" type="submit" name="gid" value="'.$row['id'].'">
+                            <form action="goals.php" method="POST">
+                            <button class="btn btn-block text-left" type="submit" name="gid" value="'.$row['id'].'">
                             <div class="card shadow mb-3">
                             <div class="row">
                                 <div class="col-md-5">';
