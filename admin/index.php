@@ -1,9 +1,13 @@
 <?php
   include "../conn.php";
   session_start();
-  if(!isset($_SESSION['email'])){
+    if(!isset($_SESSION['email'])){
         header("Location: login.php");
         exit;
+    }
+    if(isset($_GET['logout'])){
+        session_destroy();
+        header("Location: login.php");
     }
     $id=$_SESSION['id'];
 ?>
@@ -33,13 +37,6 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
-    <script> 
-    $(function(){
-    $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php"); 
-    $("#nav").load("/Personal-Productivity-Planner/admin/nav.php"); 
-    $("#footer").load("/Personal-Productivity-Planner/admin/footer.html"); 
-    });
-    </script> 
 </head>
 
 <body id="page-top">
@@ -48,7 +45,8 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <div id="sidebar"></div>
+        <?php include "sidebar.php"?>
+            <!-- <div id="sidebar"></div> -->
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -58,7 +56,8 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <div id="nav"></div>
+                <?php include "nav.php"?>
+                <!-- <div id="nav"></div> -->
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -182,26 +181,9 @@
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <!-- <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Tasks Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!-- Card Body -->
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Yearly Progress</h6>
+                            </div>
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <canvas id="myAreaChart"></canvas>
@@ -213,26 +195,9 @@
                         <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <!-- <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Your Performance</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!-- Card Body -->
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Tasks Analytics</h6>
+                            </div>
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
@@ -254,6 +219,110 @@
                     </div>
 
                     <!-- Content Row -->
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-6 col-md-6">
+                                <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Today's Pending Tasks</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Time</th>
+                                                        <th>Tag</th>
+                                                        <th>Modity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php 
+                                                    $today=strtotime("now");
+                                                    $today=date('Y-m-d', $today);
+                                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `created`= '$today' and fk_goal=0 ORDER BY `status` ASC");
+                                                    if (mysqli_num_rows($result) >0) {
+                                                    while($row = mysqli_fetch_assoc($result)){
+                                                        $time=strtotime($row["time"]);
+                                                        $strtime=strval(date('H:i a', $time));
+                                                        echo '
+                                                            <tr>
+                                                            <td><form action="components/todo-list/todo.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
+                                                            <td>'.$row['name'].'</td>
+                                                            <td>'.$row['disc'].'</td>';
+                                                        echo'<td>'.$strtime.'</td>';
+                                                        echo'<td>'.$row['tag'].'</td>
+                                                            <td><form action="components/todo-list/todo.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+
+                                                        </tr>';
+                                                            }
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-7">
+                        <div class="col-xl-6 col-md-6">
+                                <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Today's Pending Tasks</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Time</th>
+                                                        <th>Tag</th>
+                                                        <th>Modity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $today=strtotime("now");
+                                                    $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id'");
+                                                    if (mysqli_num_rows($result) >0) {
+                                                    while($row = mysqli_fetch_assoc($result)){
+                                                            echo strtotime($row['end']).'<br>';
+                                                            echo $today.'<br>';
+                                                            echo strtotime($row['end'])-$today.'<br>';
+                                                            if((strtotime($row['end'])-$today)>0) echo "hhh";
+                                                        }
+                                                    }
+                                                    $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
+                                                    if (mysqli_num_rows($result) >0) {
+                                                    while($row = mysqli_fetch_assoc($result)){
+                                                        $time=strtotime($row["time"]);
+                                                        $strtime=strval(date('H:i a', $time));
+                                                        echo '
+                                                            <tr>
+                                                            <td><form action="components/todo-list/todo.php" method="POST"><div class="checker"><input type="checkbox" onChange="this.form.submit()" name="complete-task" value="'.$row['id'].'"></div></form></td>
+                                                            <td>'.$row['name'].'</td>
+                                                            <td>'.$row['disc'].'</td>';
+                                                        echo'<td>'.$strtime.'</td>';
+                                                        echo'<td>'.$row['tag'].'</td>
+                                                            <td><form action="components/todo-list/todo.php" method="POST"><span><button class="btn btn-sm btn-primary" type="submit" name="edit-task" value="'.$row['id'].'">Edit</button><button type="submit" name="del-task" value="'.$row['id'].'" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></span></form></td>
+
+                                                        </tr>';
+                                                            }
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
 
                 </div>
@@ -263,7 +332,8 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-               <div id="footer"></div>          
+               <!-- <div id="footer"></div>           -->
+               <?php include "footer.html"?>
             <!-- End of Footer -->
 
         </div>
@@ -276,26 +346,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/personal-productivity-planner/">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>

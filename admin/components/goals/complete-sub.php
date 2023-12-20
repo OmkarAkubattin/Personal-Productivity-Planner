@@ -51,11 +51,6 @@
             if($row['trash']!=1) $totalT++;
         }
     }
-    
-
-    
-    
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,13 +81,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
         </script>
-    <script>
-        $(function () {
-            $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php");
-            $("#nav").load("/Personal-Productivity-Planner/admin/nav.php");
-            $("#footer").load("/Personal-Productivity-Planner/admin/footer.html");
-        });
-    </script>
     <style>
         .todo-nav {
             margin-top: 10px
@@ -211,7 +199,8 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <div id="sidebar"></div>
+        <!-- <div id="sidebar"></div> -->
+        <?php include "../../sidebar.php"?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -221,7 +210,8 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <div id="nav"></div>
+                <!-- <div id="nav"></div> -->
+                <?php include "../../nav.php"?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -290,13 +280,8 @@
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2020</span>
-                        </div>
-                    </div>
-                </footer>
+                <!-- <div id="footer"></div>  -->
+                <?php include "../../footer.html"?>
                 <!-- End of Footer -->
 
             </div>
@@ -310,25 +295,6 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="/personal-productivity-planner/">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>                                        
         <!-- Bootstrap core JavaScript-->
         <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>

@@ -1,7 +1,3 @@
-<?php
-include "../conn.php";
-session_start();
-?>
 <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow" style="border-bottom: 1px solid #e3e6f0;">
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -181,7 +177,8 @@ session_start();
                 $result=sql_query("SELECT * FROM `users` WHERE `email`='$email'");
                 if (mysqli_num_rows($result) >0) {
                 while($row = mysqli_fetch_assoc($result)){
-                    echo'<img class="img-profile rounded-circle" src="data:image/png;base64,'.base64_encode($row["img"]).'" alt="..." width="35px">';
+                    if(isset($row["img"])) echo'<img class="img-profile rounded-circle" src="data:image/png;base64,'.base64_encode($row["img"]).'" alt="..." width="35px">';
+                    else echo'<img class="img-profile rounded-circle" src="/Personal-Productivity-Planner/admin/img/avtar.png" alt="..." width="35px">';
                     }
                 }?>
                 <!-- <img class="img-profile rounded-circle"
@@ -190,8 +187,7 @@ session_start();
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/Personal-Productivity-Planner/admin/index.php?logout=1">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>

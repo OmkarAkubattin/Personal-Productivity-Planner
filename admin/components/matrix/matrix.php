@@ -51,13 +51,6 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
-    <script> 
-    $(function(){
-            $("#sidebar").load("/Personal-Productivity-Planner/admin/sidebar.php");
-            $("#nav").load("/Personal-Productivity-Planner/admin/nav.php");
-            $("#footer").load("/Personal-Productivity-Planner/admin/footer.html"); 
-    });
-    </script> 
     <style>
         .todo-nav {
             margin-top: 10px
@@ -171,7 +164,8 @@
     <div id="wrapper">
 
          <!-- Sidebar -->
-         <div id="sidebar"></div>
+         <!-- <div id="sidebar"></div> -->
+         <?php include "../../sidebar.php"?>
          <!-- End of Sidebar -->
  
          <!-- Content Wrapper -->
@@ -181,14 +175,15 @@
              <div id="content">
  
                  <!-- Topbar -->
-                 <div id="nav"></div>
+                 <!-- <div id="nav"></div> -->
+                <?php include "../../nav.php"?>
                  <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Eisenhower Matris</h1>
+                    <h1 class="h3 mb-2 mt-2 text-gray-800">Eisenhower Matris</h1>
                     <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
                         The charts below have been customized - for further customization options, please visit the <a
                             target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
@@ -204,7 +199,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
                                 </div>
-                                <div class="card-body" style="padding-top: 0px">
+                                <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0 and `type`= 1");
                                     if (mysqli_num_rows($result) >0) {
@@ -246,7 +241,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
                                 </div>
-                                <div class="card-body" style="padding-top: 0px">
+                                <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0 and `type`= 2");
                                     if (mysqli_num_rows($result) >0) {
@@ -289,7 +284,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
                                 </div>
-                                <div class="card-body" style="padding-top: 0px">
+                                <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0 and `type`= 3");
                                     if (mysqli_num_rows($result) >0) {
@@ -331,7 +326,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
                                 </div>
-                                <div class="card-body" style="padding-top: 0px">
+                                <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `status`= 0 and `trash`= 0 and `type`= 4");
                                     if (mysqli_num_rows($result) >0) {
@@ -373,13 +368,8 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
+            <!-- <div id="footer"></div>  -->
+            <?php include "../../footer.html"?>
             <!-- End of Footer -->
 
         </div>
@@ -392,26 +382,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/Personal-Productivity-Planner/admin/vendor/jquery/jquery.min.js"></script>

@@ -1,6 +1,4 @@
 <?php 
-    include "../conn.php";
-    session_start();
     $id=$_SESSION['id'];
 ?>
 
@@ -24,7 +22,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item <?php if($_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/index.php"){echo "active";}?>">
         <a class="nav-link" href="/Personal-Productivity-Planner/admin/index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -34,7 +32,7 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item <?php if($_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/todo.php"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Personal"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Private"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Work"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Other"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/todo-list/trash-todo.php"){echo "active";}?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
@@ -63,7 +61,7 @@
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item <?php if($_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/goals/index.php"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/goals/complete-goals.php"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/goals/complete-sub.php"||$_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/goals/goals.php"){echo "active";}?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
@@ -87,14 +85,14 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
+    <li class="nav-item <?php if($_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/matrix/matrix.php"){echo "active";}?>">
         <a class="nav-link" href="/Personal-Productivity-Planner/admin/components/matrix/matrix.php">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Eisenhower Matris</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
+    <li class="nav-item <?php if($_SERVER['PHP_SELF']=="/Personal-Productivity-Planner/admin/components/pomodoro/index.html"){echo "active";}?>">
         <a class="nav-link" href="/Personal-Productivity-Planner/admin/components/pomodoro/index.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Pomodoro</span></a>
