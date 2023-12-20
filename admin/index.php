@@ -267,11 +267,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-8 col-lg-7">
                         <div class="col-xl-6 col-md-6">
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Today's Pending Tasks</h6>
+                                    <?php 
+                                        $goalid='';
+                                        $today=strtotime("now");
+                                        $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id'");
+                                        if (mysqli_num_rows($result) >0) {
+                                        while($row = mysqli_fetch_assoc($result)){
+                                                if((strtotime($row['end'])-$today)<0) {
+                                                    $goalid=$row['id'];
+                                                    echo '<h6 class="m-0 font-weight-bold text-primary">Current Goal Sub Task : '.$row['name'].'</h6>';
+
+                                                }
+                                            }
+                                        }
+                                    ?>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -288,16 +300,6 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $today=strtotime("now");
-                                                    $result=sql_query("SELECT * FROM `goals` WHERE `fk_user`='$id'");
-                                                    if (mysqli_num_rows($result) >0) {
-                                                    while($row = mysqli_fetch_assoc($result)){
-                                                            echo strtotime($row['end']).'<br>';
-                                                            echo $today.'<br>';
-                                                            echo strtotime($row['end'])-$today.'<br>';
-                                                            if((strtotime($row['end'])-$today)>0) echo "hhh";
-                                                        }
-                                                    }
                                                     $result=sql_query("SELECT * FROM `todo` WHERE `fk_user`='$id' and `trash`= 0 and `fk_goal`= '".$goalid."' ORDER BY `status` ASC");
                                                     if (mysqli_num_rows($result) >0) {
                                                     while($row = mysqli_fetch_assoc($result)){
@@ -321,7 +323,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     
 
