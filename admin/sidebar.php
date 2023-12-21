@@ -40,22 +40,14 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo.php">Inbox</a>
-            </div>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo.php">Inbox</a><hr>
                 <h6 class="collapse-header">Tags</h6>
                     <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Personal">Personal</a>
                     <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Work">Work</a>
                     <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Regular">Regular</a>
-                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Other">Other</a>
-            </div>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php">Completed</a>
-                <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/trash-todo.php">Trash</a>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/todo-tags.php?tag=Other">Other</a><hr>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/complete-todo.php">Completed</a>
+                    <a class="collapse-item" href="/Personal-Productivity-Planner/admin/components/todo-list/trash-todo.php">Trash</a>
             </div>
         </div>
     </li>
