@@ -239,7 +239,7 @@
                             <!-- Area Chart -->
                             <div class="card shadow mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Urgent & Not Important</h6>
                                 </div>
                                 <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
@@ -282,7 +282,7 @@
                             <!-- Area Chart -->
                             <div class="card shadow mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Not Urgent & Important</h6>
                                 </div>
                                 <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
@@ -324,7 +324,7 @@
                             <!-- Area Chart -->
                             <div class="card shadow mb-4" style="border: 0px;border-right: 1px solid #e3e6f0;border-radius: 0;">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Urgent & Important</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Not Urgent & Not Important</h6>
                                 </div>
                                 <div class="card-body" style="padding-top: 0px;height:325px;">
                                     <?php 
