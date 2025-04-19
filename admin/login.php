@@ -76,14 +76,15 @@ if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['login'])){
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>';
-                                }if($signup){
-                                    echo '<div class="alert alert-danger alert-dismissible fade show" style="position:absolute;" role="alert">
-                                    <strong>Failed !! </strong> User is Already Available
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>';
                                 }
+                                //if($signup){
+                                //     echo '<div class="alert alert-danger alert-dismissible fade show" style="position:absolute;" role="alert">
+                                //     <strong>Failed !! </strong> User is Already Available
+                                //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                //         <span aria-hidden="true">&times;</span>
+                                //     </button>
+                                //     </div>';
+                                // }
                                 if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['reset'])){
                                     echo '<div class="alert alert-success alert-dismissible fade show" style="position:absolute;" role="alert">
                                     <strong>Successfully !! </strong> Password sent to your registered Email    .

@@ -17,6 +17,9 @@
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['update-task'])){
         $result=sql_query("UPDATE `todo` SET `name`='".$_POST['name']."',`disc`='".$_POST['disc']."',`created`='".$_POST['created']."',`time`='".$_POST['time']."',`tag`='".$_POST['tag']."',`type`='".$_POST['type']."' WHERE `id` = ".$_POST['update-task']."");
     }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['add-task'])){
+        $_GET['tag']=$_POST['tag'];;
+    }
 
 ?>
 <!DOCTYPE html>
